@@ -23,10 +23,11 @@ class HeliosController extends Controller {
 				if (count($results_contact)) {
 					foreach ($results_contact as $result){
 						$result->status == 1 ? $result->status = "Fails" : $result->status = "OK";
-						if (!empty($result->check_from)) $result->check_from = date('d-m-Y h:m:s', $result->check_from / 1000);
+						if (!empty($result->check_from)) $result->check_from = date('d-m-Y h:i:s', $result->check_from / 1000);
 						else $result->check_from = 'N/a';
-						if (!empty($result->check_to)) $result->check_to = date('d-m-Y h:m:s', $result->check_to / 1000);
-						else $result->check_from = 'N/a';
+
+						if (!empty($result->check_to)) $result->check_to = date('d-m-Y h:i:s', $result->check_to / 1000);
+						else $result->check_to = 'N/a';
 					}
 
 					foreach ($results_ping as $result){
