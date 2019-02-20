@@ -38,14 +38,15 @@ class SocialAuthGoogleController extends Controller
 			if($existUser != null && $existUser->role == 'Admin') {
 				Auth::loginUsingId($existUser->id);
 			}
-			else if($existUser->role == null){
+			else if($existUser == null){
 				$user = new User;
 				$user->name = $googleUser->name;
 				$user->email = $googleUser->email;
 				$user->google_id = $googleUser->id;
 				$user->role = 'User';
 				$user->save();
-				Auth::loginUsingId($user->id);
+
+				return redirect()->to('/');
 			}
 
 			return redirect()->to('/');
