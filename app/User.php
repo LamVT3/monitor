@@ -2,11 +2,12 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 
-class User extends Eloquent
+class User extends Eloquent implements AuthenticatableContract
 {
-    use Notifiable;
+	use Authenticatable;
 	protected $collection = 'users';
 }

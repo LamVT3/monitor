@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\User;
-use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Exception;
 
@@ -12,42 +11,62 @@ use Exception;
 
 class SocialAuthGoogleController extends Controller
 {
-	public function redirect()
+	public function __construct()
 	{
-		return Response::json([
-			                      "success" => true,
-			                      "result"  => true
-		                      ] );
-//		return Socialite::driver('google')->redirect();
+		parent::__construct(FALSE);
 	}
 
+	public function redirect()
+	{
+		return Socialite::driver('google')->redirect();
+	}
 
 	public function callback()
 	{
 		try {
 
 			$googleUser = Socialite::driver('google')->user();
-			$existUser = User::where('email',$googleUser->email)->first();
 
+			$domain = explode('@', $googleUser->email)[1];
 
-			if($existUser) {
+			if (!in_array($domain, ["topica.edu.vn", "topica.asia"])){
+				return redirect()->to('/');
+			}
+
+			$existUser = User::where('email', $googleUser->email)->first();
+
+			if($existUser != null && $existUser->role == 'Admin') {
 				Auth::loginUsingId($existUser->id);
 			}
-			else {
+			else if($existUser->role == null){
 				$user = new User;
 				$user->name = $googleUser->name;
 				$user->email = $googleUser->email;
 				$user->google_id = $googleUser->id;
-				$user->password = md5(rand(1,10000));
+				$user->role = 'User';
 				$user->save();
 				Auth::loginUsingId($user->id);
 			}
 
-
-//			return redirect()->to('/home');
+			return redirect()->to('/');
 		}
 		catch (Exception $e) {
-			return 'error';
+			return $e;
 		}
+	}
+
+	public function logout()
+	{
+		Auth::logout();
+
+		return redirect('/');
+	}
+
+	public function login()
+	{
+		if (Auth::check() == true) {
+			return redirect('/');
+		}
+		return view("login");
 	}
 }

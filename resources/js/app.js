@@ -8,9 +8,7 @@ import {
 }   from 'react-router-dom';
 
 import Home from "./views/home/Home";
-import Login                 from  './views/auth/Login';
 import MainLayout from "./views/layout/MainLayout";
-import LoginLayout from "./views/layout/LoginLayout";
 
 
 if (document.getElementById('root')) {
@@ -18,16 +16,9 @@ if (document.getElementById('root')) {
         (
             <Router>
                 <Switch>
-                    <Route path='/auth/'>
-                        <LoginLayout>
-                            <Route path="/auth/login" component={Login}/>
-                        </LoginLayout>
-                    </Route>
-
                     <Route path='/'>
                         <MainLayout>
                             <Route exact={true} path="/" component={Home}/>
-                            {/*<Route path="/Logout" component={Logout}/>*/}
                         </MainLayout>
                     </Route>
                 </Switch>

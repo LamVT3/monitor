@@ -14,9 +14,9 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
 	public function __construct( $requireAuth = true ){
-//		if( $requireAuth ){
-//			$this->middleware('TopicaAuth');
-//		}
+		if( $requireAuth ){
+			$this->middleware('MonitorAuth');
+		}
 	}
 
 	public function responseSuccess( $data = null ){

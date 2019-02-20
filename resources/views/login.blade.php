@@ -43,8 +43,18 @@
         </script>
 
     </head>
-    <body class="hold-transition skin-blue sidebar-mini" style="background-color:#d2d6de !important;">
-        <div id="root" style="position: unset">
+    <body class="hold-transition login-page" style="background-color:#d2d6de !important;">
+        <div class="login-box">
+            <div class="login-logo">
+                <a href="/"><b> Monitor</b> NTL</a>
+            </div>
+            <div class="login-box-body">
+                <p class="login-box-msg">Sign in to start your session</p>
+                <div class="social-auth-links text-center">
+                    <a href="/auth/redirect" class="btn btn-block btn-social btn-google btn-flat">
+                        <i class="fa fa-google-plus"> </i> Sign in using Google+</a>
+                </div>
+            </div>
         </div>
 
         <!-- jQuery 3 -->

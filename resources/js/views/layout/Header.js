@@ -7,14 +7,6 @@ import {Link} from "react-router-dom";
 class Header extends Component{
     constructor(props) {
         super(props);
-        this.handleLogout = this.handleLogout.bind(this);
-
-    }
-
-    handleLogout(e) {
-        e.preventDefault();
-        localStorage.removeItem('jwt');
-        window.location.href = '/'
     }
 
     render() {
@@ -79,7 +71,7 @@ class Header extends Component{
                                             {/*<a href="#" className="btn btn-default btn-flat">Profile</a>*/}
                                         {/*</div>*/}
                                         <div className="pull-right">
-                                            <a href="#" onClick={this.handleLogout}  className="btn btn-default btn-flat">Sign out</a>
+                                            <a href="/logout" className="btn btn-default btn-flat">Sign out</a>
                                         </div>
                                     </li>
                                 </ul>
