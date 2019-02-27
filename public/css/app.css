@@ -222,3 +222,11 @@
 .icheck-minimal{
     font-size: 48px;
 }
+
+/*.canvasjs-chart-canvas{*/
+    /*position: unset !important;*/
+/*}*/
+#chartContainer{
+    height: 370px;
+    width: 100%;
+}

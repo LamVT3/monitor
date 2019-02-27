@@ -8,6 +8,7 @@ import {
 }   from 'react-router-dom';
 
 import Home from "./views/home/Home";
+import Report from "./views/report/Report";
 import MainLayout from "./views/layout/MainLayout";
 
 
@@ -19,6 +20,7 @@ if (document.getElementById('root')) {
                     <Route path='/'>
                         <MainLayout>
                             <Route exact={true} path="/" component={Home}/>
+                            <Route path="/report" component={Report}/>
                         </MainLayout>
                     </Route>
                 </Switch>

@@ -29,3 +29,6 @@ Route::get('/api/helios/all', 'Api\HeliosController@all');
 Route::get('/api/helios/get-config-contact', 'Api\HeliosController@getConfigContact');
 Route::get('/api/helios/get-config-ping', 'Api\HeliosController@getConfigPing');
 Route::post('/api/helios/config', 'Api\HeliosController@postConfig');
+
+Route::get('/report', REACT_DEFAULT_ROUTER);
+Route::get('/api/report/all', 'Api\ReportApiController@all');

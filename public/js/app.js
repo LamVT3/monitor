@@ -53137,7 +53137,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 /* harmony import */ var _views_home_Home__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./views/home/Home */ "./resources/js/views/home/Home.js");
-/* harmony import */ var _views_layout_MainLayout__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./views/layout/MainLayout */ "./resources/js/views/layout/MainLayout.js");
+/* harmony import */ var _views_report_Report__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./views/report/Report */ "./resources/js/views/report/Report.js");
+/* harmony import */ var _views_layout_MainLayout__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./views/layout/MainLayout */ "./resources/js/views/layout/MainLayout.js");
+
 
 
 
@@ -53147,10 +53149,13 @@ __webpack_require__.r(__webpack_exports__);
 if (document.getElementById('root')) {
   react_dom__WEBPACK_IMPORTED_MODULE_0___default.a.render(react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["BrowserRouter"], null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
     path: "/"
-  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_views_layout_MainLayout__WEBPACK_IMPORTED_MODULE_4__["default"], null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_views_layout_MainLayout__WEBPACK_IMPORTED_MODULE_5__["default"], null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
     exact: true,
     path: "/",
     component: _views_home_Home__WEBPACK_IMPORTED_MODULE_3__["default"]
+  }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+    path: "/report",
+    component: _views_report_Report__WEBPACK_IMPORTED_MODULE_4__["default"]
   }))))), document.getElementById('root'));
 }
 
@@ -53745,6 +53750,256 @@ function (_Component) {
 
 /***/ }),
 
+/***/ "./resources/js/views/report/Report.js":
+/*!*********************************************!*\
+  !*** ./resources/js/views/report/Report.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/es/index.js");
+/* harmony import */ var react_popup__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-popup */ "./node_modules/react-popup/dist/index.js");
+/* harmony import */ var react_popup__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_popup__WEBPACK_IMPORTED_MODULE_4__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+
+
+
+var Report =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(Report, _Component);
+
+  function Report(props) {
+    var _this;
+
+    _classCallCheck(this, Report);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Report).call(this, props));
+    _this.state = {
+      data_contact_table: '',
+      data_ping_table: '',
+      showModal: false,
+      type: ''
+    }; // this.close = this.close.bind(this);
+    // this.submit = this.submit.bind(this);
+    // this.handleConfigTrackingContact = this.handleConfigTrackingContact.bind(this);
+    // this.handleConfigTrackingPing = this.handleConfigTrackingPing.bind(this);
+    // this.setWrapperRef = this.setWrapperRef.bind(this);
+    // this.handleClickOutside = this.handleClickOutside.bind(this);
+
+    return _this;
+  }
+
+  _createClass(Report, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var chart = new CanvasJS.Chart("chartContainer", {
+        animationEnabled: true,
+        theme: "light2",
+        title: {
+          text: "Site Traffic"
+        },
+        axisX: {
+          valueFormatString: "DD MMM",
+          crosshair: {
+            enabled: true,
+            snapToDataPoint: true
+          }
+        },
+        axisY: {
+          title: "Number of Visits",
+          crosshair: {
+            enabled: true
+          }
+        },
+        toolTip: {
+          shared: true
+        },
+        legend: {
+          cursor: "pointer",
+          verticalAlign: "bottom",
+          horizontalAlign: "left",
+          dockInsidePlotArea: true,
+          itemclick: toogleDataSeries
+        },
+        data: [{
+          type: "line",
+          showInLegend: true,
+          name: "Total Visit",
+          markerType: "square",
+          xValueFormatString: "DD MMM, YYYY",
+          color: "#F08080",
+          dataPoints: [{
+            x: new Date(2017, 0, 3),
+            y: 650
+          }, {
+            x: new Date(2017, 0, 4),
+            y: 700
+          }, {
+            x: new Date(2017, 0, 5),
+            y: 710
+          }, {
+            x: new Date(2017, 0, 6),
+            y: 658
+          }, {
+            x: new Date(2017, 0, 7),
+            y: 734
+          }, {
+            x: new Date(2017, 0, 8),
+            y: 963
+          }, {
+            x: new Date(2017, 0, 9),
+            y: 847
+          }, {
+            x: new Date(2017, 0, 10),
+            y: 853
+          }, {
+            x: new Date(2017, 0, 11),
+            y: 869
+          }, {
+            x: new Date(2017, 0, 12),
+            y: 943
+          }, {
+            x: new Date(2017, 0, 13),
+            y: 970
+          }, {
+            x: new Date(2017, 0, 14),
+            y: 869
+          }, {
+            x: new Date(2017, 0, 15),
+            y: 890
+          }, {
+            x: new Date(2017, 0, 16),
+            y: 930
+          }]
+        }, {
+          type: "line",
+          showInLegend: true,
+          name: "Unique Visit",
+          lineDashType: "dash",
+          dataPoints: [{
+            x: new Date(2017, 0, 3),
+            y: 510
+          }, {
+            x: new Date(2017, 0, 4),
+            y: 560
+          }, {
+            x: new Date(2017, 0, 5),
+            y: 540
+          }, {
+            x: new Date(2017, 0, 6),
+            y: 558
+          }, {
+            x: new Date(2017, 0, 7),
+            y: 544
+          }, {
+            x: new Date(2017, 0, 8),
+            y: 693
+          }, {
+            x: new Date(2017, 0, 9),
+            y: 657
+          }, {
+            x: new Date(2017, 0, 10),
+            y: 663
+          }, {
+            x: new Date(2017, 0, 11),
+            y: 639
+          }, {
+            x: new Date(2017, 0, 12),
+            y: 673
+          }, {
+            x: new Date(2017, 0, 13),
+            y: 660
+          }, {
+            x: new Date(2017, 0, 14),
+            y: 562
+          }, {
+            x: new Date(2017, 0, 15),
+            y: 643
+          }, {
+            x: new Date(2017, 0, 16),
+            y: 570
+          }]
+        }]
+      });
+      chart.render();
+
+      function toogleDataSeries(e) {
+        if (typeof e.dataSeries.visible === "undefined" || e.dataSeries.visible) {
+          e.dataSeries.visible = false;
+        } else {
+          e.dataSeries.visible = true;
+        }
+
+        chart.render();
+      }
+
+      console.log(123123);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {}
+  }, {
+    key: "render",
+    value: function render() {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+        className: "content-header"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fa fa-dashboard"
+      }, " "), " Report")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+        className: "content"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-12 col-sm-12 col-xs-12"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "box"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "box-header"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+        className: "box-title"
+      }, "Tracking contacts")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "box-body"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "chartContainer"
+      })))))));
+    }
+  }]);
+
+  return Report;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (Report);
+
+/***/ }),
+
 /***/ 0:
 /*!***********************************!*\
   !*** multi ./resources/js/app.js ***!
@@ -53752,7 +54007,7 @@ function (_Component) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /data/web_data/apache2/www/rada/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\www\MonitorNTL\resources\js\app.js */"./resources/js/app.js");
 
 
 /***/ })

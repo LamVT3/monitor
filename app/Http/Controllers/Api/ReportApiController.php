@@ -10,11 +10,10 @@ use Illuminate\Support\Facades\Auth;
 use Exception;
 use App\Http\Utils\Debug\Debug;
 
-class HeliosController extends Controller {
+class ReportApiController extends Controller {
 
 	public function all(){
 		try {
-//			$user = Auth::user();
 
 			$results_contact = Helios::where('type', 0)->get();
 			$results_ping = Helios::where('type', 1)->get();
