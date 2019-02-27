@@ -12,32 +12,11 @@ use App\Http\Utils\Debug\Debug;
 
 class ReportApiController extends Controller {
 
-	public function all(){
+	public function getPingContact(){
 		try {
-
-			$results_contact = Helios::where('type', 0)->get();
-			$results_ping = Helios::where('type', 1)->get();
-
-			if(!is_null($results_contact)){
-				if (count($results_contact)) {
-					foreach ($results_contact as $result){
-						$result->status == 1 ? $result->status = "Fails" : $result->status = "OK";
-						if (!empty($result->check_from)) $result->check_from = date('d-m-Y h:i:s', (string)$result->check_from / 1000);
-						else $result->check_from = 'N/a';
-
-						if (!empty($result->check_to)) $result->check_to = date('d-m-Y h:i:s', (string)$result->check_to / 1000);
-						else $result->check_to = 'N/a';
-					}
-
-					foreach ($results_ping as $result){
-						$result->status == 1 ? $result->status = "Fails" : $result->status = "OK";
-					}
-
-					$data = [
-						"results_contact" =>$results_contact,
-						"results_ping" =>$results_ping,
-						];
-
+            $data = $this->queryPingContact();
+			if(!is_null($data)){
+				if (count($data)) {
 					return $this->responseSuccess(  $data );
 				}else{
 					Debug::Error( "ERROR: So luong thong tin tra ve khong co");
@@ -54,87 +33,60 @@ class ReportApiController extends Controller {
 		}
 	}
 
-	public function getConfigContact(){
-		try {
-			$config = Config::where('type', 'helios_contact')->first();
+	private function queryPingContact(){
+        $month  = date('m');
+        $year   = date('Y');
+        $days   = cal_days_in_month(CAL_GREGORIAN, $month, $year);
 
-			if(!is_null($config)){
-				$data = [
-					'reciptent' => $config->reciptent,
-					'interval' => $config->interval,
-					'status' => $config->status
-				];
+        $from   = date('Y-m-01');
+        $to     = date('Y-m-t');
 
-				return $this->responseSuccess(  $data );
-			}else {
-				Debug::Error( "ERROR: Ket qua tra ve NULL");
-				return $this->responseError( -1 );
-			}
-		} catch (Exception $e) {
-			Debug::Error("Exception error:" . $e->getMessage() );
-			Debug::Error($e->getTraceAsString());
-			return $this->responseError( -1 );
-		}
-	}
+        $query = Helios::where('type', 0)
+            ->where('created_date', '>', $from)
+            ->where('created_date', '<=', $to)->get();
 
-	public function postConfig(Request $request){
-		try {
-			$reciptent = $request->reciptent;
-			$interval = $request->interval;
-			$status = $request->status;
-			$type = $request->type;
+        $result = [];
+        if(!is_null($query)){
 
-			$config = Config::where('type', $type)->first();
+            $results_contact_pass   = [];
+            $results_contact_fail   = [];
+            $data_contact_pass      = [];
+            $data_contact_fail      = [];
 
-			if ($config == null){
-				$config = new Config();
-				$config->type = $type;
-				$config->reciptent = $reciptent;
-				$config->interval = $interval;
-				$config->status = $status;
-				$config->save();
-			}else{
-				$config->reciptent = $reciptent;
-				$config->interval = $interval;
-				$config->status = $status;
-				$config->save();
-			}
+            foreach ($query as $item){
+                if($item->status == '0'){
+                    $d = date("d", strtotime($item->created_date));
+                    @$data_contact_pass[$d]++;
+                }elseif ($item->status == '1'){
+                    $d = date("d", strtotime($item->created_date));
+                    @$data_contact_fail[$d]++;
+                }
+            }
 
-			if(!is_null($config)){
-				$data = $config;
+            for ($i = 1; $i <= $days; $i++) {
+                if(@$data_contact_pass[$i]){
+                    @$results_contact_pass[] = ['x' => $i, 'y' => $data_contact_pass[$i]];
+                }else{
+                    @$results_contact_pass[] = ['x' => $i, 'y' => 0];
+                }
 
-				return $this->responseSuccess(  $data );
-			}else {
-				Debug::Error( "ERROR: Ket qua tra ve NULL");
-				return $this->responseError( -1 );
-			}
-		} catch (Exception $e) {
-			Debug::Error("Exception error:" . $e->getMessage() );
-			Debug::Error($e->getTraceAsString());
-			return $this->responseError( -1 );
-		}
-	}
+                if(@$data_contact_fail[$i]){
+                    @$results_contact_fail[] = ['x' => $i, 'y' => $data_contact_fail[$i]];
+                }else{
+                    @$results_contact_fail[] = ['x' => $i, 'y' => 0];
+                }
+            }
 
-	public function getConfigPing(){
-		try {
-			$config = Config::where('type', 'helios_ping')->first();
+            $result = [
+                'results_contact_pass' => $results_contact_pass,
+                'results_contact_fail' => $results_contact_fail
+            ];
 
-			if(!is_null($config)){
-				$data = [
-					'reciptent' => $config->reciptent,
-					'interval' => $config->interval,
-					'status' => $config->status
-				];
+        }
+        return $result;
+    }
 
-				return $this->responseSuccess(  $data );
-			}else {
-				Debug::Error( "ERROR: Ket qua tra ve NULL");
-				return $this->responseError( -1 );
-			}
-		} catch (Exception $e) {
-			Debug::Error("Exception error:" . $e->getMessage() );
-			Debug::Error($e->getTraceAsString());
-			return $this->responseError( -1 );
-		}
-	}
+
+
+
 }
