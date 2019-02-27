@@ -14,10 +14,14 @@ class Header extends Component{
         return (
             <header className="main-header">
                 <Link to="/" className="logo">
+                    <span className="logo-mini"><b> <i className="fa fa-dashboard"></i></b></span>
                     <span className="logo-lg"><b> Monitor</b> NTL</span>
                 </Link>
 
                 <nav className="navbar navbar-static-top">
+                    <a href="#" className="sidebar-toggle" data-toggle="push-menu" role="button">
+                        <span className="sr-only">Toggle navigation</span>
+                    </a>
                     <div className="navbar-custom-menu">
                         <ul className="nav navbar-nav">
                             <li className="dropdown notifications-menu">

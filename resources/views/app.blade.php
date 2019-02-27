@@ -41,9 +41,10 @@
                 'csrfToken' => csrf_token(),
             ]) !!};
         </script>
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
     </head>
-    <body class="hold-transition skin-blue sidebar-mini" style="background-color:#d2d6de !important;">
+    <body class="hold-transition skin-blue sidebar-mini sidebar-collapse" style="background-color:#d2d6de !important;">
         <div id="root" style="position: unset">
         </div>
 
