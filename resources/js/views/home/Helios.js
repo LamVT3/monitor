@@ -108,7 +108,7 @@ class Helios extends Component {
                     'paging'      : true,
                     'lengthChange': true,
                     'searching'   : true,
-                    'ordering'    : true,
+                    'order': [[ 0, 'desc' ]],
                     'info'        : true,
                     'autoWidth'   : true
                 });
