@@ -25,7 +25,7 @@ class SocialAuthGoogleController extends Controller
 	{
 		try {
 
-			$googleUser = Socialite::driver('google')->user();
+			$googleUser = Socialite::driver('google')->stateless()->user();
 
 			$domain = explode('@', $googleUser->email)[1];
 
@@ -52,7 +52,7 @@ class SocialAuthGoogleController extends Controller
 			return redirect()->to('/');
 		}
 		catch (Exception $e) {
-			return $e;
+//			return $e;
 		}
 	}
 

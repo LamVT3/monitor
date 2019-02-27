@@ -43,7 +43,7 @@
         </script>
 
     </head>
-    <body class="hold-transition skin-blue sidebar-mini" style="background-color:#d2d6de !important;">
+    <body class="hold-transition skin-blue sidebar-mini sidebar-collapse" style="background-color:#d2d6de !important;">
         <div id="root" style="position: unset">
         </div>
 
