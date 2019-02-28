@@ -32,4 +32,8 @@ Route::post('/api/helios/config', 'Api\HeliosController@postConfig');
 
 Route::get('/report', REACT_DEFAULT_ROUTER);
 Route::get('/api/report/get-ping-contact', 'Api\ReportApiController@getPingContact');
-Route::get('/api/report/get-ping-server', 'Api\ReportApiController@getPingServer');
+Route::get('/api/report/get-ping-server-1', 'Api\ReportApiController@getPingServer1');
+Route::get('/api/report/get-ping-server-2', 'Api\ReportApiController@getPingServer2');
+Route::get('/api/report/get-ping-server-3', 'Api\ReportApiController@getPingServer3');
+Route::get('/api/report/get-ping-server-4', 'Api\ReportApiController@getPingServer4');
+Route::get('/api/report/get-ping-server-5', 'Api\ReportApiController@getPingServer5');

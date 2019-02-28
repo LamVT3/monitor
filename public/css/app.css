@@ -226,7 +226,12 @@
 /*.canvasjs-chart-canvas{*/
     /*position: unset !important;*/
 /*}*/
-#chartContainer{
-    height: 370px;
+#ping-contact-chart{
+    height: 200px;
+    width: 100%;
+}
+
+#ping-server-1, #ping-server-2, #ping-server-3, #ping-server-4, #ping-server-5{
+    height: 200px;
     width: 100%;
 }
