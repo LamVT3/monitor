@@ -37,13 +37,18 @@ class Helios extends Component {
     }
 
     handleConfigTrackingContact() {
-        this.setState({ showModal: true, type: 'helios_contact'});
-
         axios.get('/api/helios/get-config-contact')
             .then(response => {
-                if (response.data.result.status === 1){ $('#status').prop('checked', true); }
-                $('#reciptent').val(response.data.result.reciptent);
-                $('#interval').val(response.data.result.interval);
+                if (response.data.success === true){
+                    this.setState({ showModal: true, type: 'helios_contact'});
+                    if (response.data.status === 1){ $('#status').prop('checked', true); }
+                    $('#reciptent').val(response.data.result.reciptent);
+                    $('#interval').val(response.data.result.interval);
+                }
+                else{
+                    Popup.alert(response.data.message);
+                    console.log(response.data.message);
+                }
 
             }).catch(error => {
             // LOG.error(error);
@@ -52,13 +57,18 @@ class Helios extends Component {
     }
 
     handleConfigTrackingPing() {
-        this.setState({ showModal: true, type: 'helios_ping'});
-
         axios.get('/api/helios/get-config-ping')
             .then(response => {
-                if (response.data.result.status === 1){ $('#status').prop('checked', true); }
-                $('#reciptent').val(response.data.result.reciptent);
-                $('#interval').val(response.data.result.interval);
+                if (response.data.success === true) {
+                    this.setState({ showModal: true, type: 'helios_ping'});
+                    if (response.data.result.status === 1) { $('#status').prop('checked', true); }
+                    $('#reciptent').val(response.data.result.reciptent);
+                    $('#interval').val(response.data.result.interval);
+                }
+                else{
+                    Popup.alert(response.data.message);
+                    console.log(response.data.message);
+                }
 
             }).catch(error => {
             // LOG.error(error);
@@ -99,19 +109,23 @@ class Helios extends Component {
     componentDidMount(){
         axios.get('/api/helios/all')
             .then(response => {
-                this.setState({
-                    data_contact_table: response.data.result.results_contact,
-                    data_ping_table: response.data.result.results_ping,
-                });
+                if (response.data.success === true){
+                    this.setState({
+                        data_contact_table: response.data.result.results_contact,
+                        data_ping_table: response.data.result.results_ping,
+                    });
 
-                $('.helios_table').DataTable({
-                    'paging'      : true,
-                    'lengthChange': true,
-                    'searching'   : true,
-                    'order': [[ 0, 'desc' ]],
-                    'info'        : true,
-                    'autoWidth'   : true
-                });
+                    $('.helios_table').DataTable({
+                        'paging'      : true,
+                        'lengthChange': true,
+                        'searching'   : true,
+                        'order': [[ 0, 'desc' ]],
+                        'info'        : true,
+                        'autoWidth'   : true
+                    });
+                }
+                else
+                    console.log(response.data.message);
 
             }).catch(error => {
             // LOG.error(error);

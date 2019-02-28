@@ -22,7 +22,7 @@ class HeliosController extends Controller {
 			if(!is_null($results_contact)){
 				if (count($results_contact)) {
 					foreach ($results_contact as $result){
-						$result->status == 1 ? $result->status = "Fails" : $result->status = "OK";
+						$result->status == 1 ? $result->status = "Fail" : $result->status = "OK";
 						if (!empty($result->check_from)) $result->check_from = date('d-m-Y h:i:s', (string)$result->check_from / 1000);
 						else $result->check_from = 'N/a';
 
@@ -31,7 +31,7 @@ class HeliosController extends Controller {
 					}
 
 					foreach ($results_ping as $result){
-						$result->status == 1 ? $result->status = "Fails" : $result->status = "OK";
+						$result->status == 1 ? $result->status = "Fail" : $result->status = "OK";
 					}
 
 					$data = [
@@ -57,6 +57,8 @@ class HeliosController extends Controller {
 
 	public function getConfigContact(){
 		try {
+			if ($this->checkRole() == false) return $this->responsePermission();
+
 			$config = Config::where('type', 'helios_contact')->first();
 
 			if(!is_null($config)){
@@ -80,6 +82,8 @@ class HeliosController extends Controller {
 
 	public function postConfig(Request $request){
 		try {
+			if ($this->checkRole() == false) return $this->responsePermission();
+
 			$reciptent = $request->reciptent;
 			$interval = $request->interval;
 			$status = $request->status;
@@ -118,6 +122,8 @@ class HeliosController extends Controller {
 
 	public function getConfigPing(){
 		try {
+			if ($this->checkRole() == false) return $this->responsePermission();
+
 			$config = Config::where('type', 'helios_ping')->first();
 
 			if(!is_null($config)){

@@ -46,6 +46,8 @@ class MonitorAuth
             else {
                 return redirect()->guest('login');
             }
+        }elseif (isset(Auth::user()->role) && Auth::user()->role == 'None'){
+        	return abort(403);
         }
 
         return $next( $request );

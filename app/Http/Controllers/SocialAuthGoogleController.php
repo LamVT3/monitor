@@ -35,7 +35,7 @@ class SocialAuthGoogleController extends Controller
 
 			$existUser = User::where('email', $googleUser->email)->first();
 
-			if($existUser != null && $existUser->role == 'Admin') {
+			if($existUser != null && in_array($existUser->role, ['User', 'Admin'])) {
 				Auth::loginUsingId($existUser->id);
 			}
 			else if($existUser == null){
@@ -43,7 +43,7 @@ class SocialAuthGoogleController extends Controller
 				$user->name = $googleUser->name;
 				$user->email = $googleUser->email;
 				$user->google_id = $googleUser->id;
-				$user->role = 'User';
+				$user->role = 'None';
 				$user->save();
 
 				return redirect()->to('/');
