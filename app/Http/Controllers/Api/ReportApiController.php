@@ -13,16 +13,20 @@ use App\Http\Utils\Debug\Debug;
 class ReportApiController extends Controller {
 
     const TYPE_PING_CONTACT = 0;
-    const TYPE_PING_SERVER = 1;
+    const TYPE_PING_SERVER  = 1;
     const IP_SERVER_1 = '42.115.221.30';
     const IP_SERVER_2 = '42.115.221.43';
     const IP_SERVER_3 = '42.115.221.99';
     const IP_SERVER_4 = '42.115.221.11';
     const IP_SERVER_5 = '42.115.221.111';
 
-	public function getPingContact(){
+	public function getPingContact(Request $request){
 		try {
-            $data = $this->queryPingContact();
+            $month = $request->month;
+            if($month < 10){
+                $month = '0'.$month;
+            }
+            $data = $this->queryPingContact($month);
 			if(!is_null($data)){
 				if (count($data)) {
 					return $this->responseSuccess(  $data );
@@ -41,13 +45,15 @@ class ReportApiController extends Controller {
 		}
 	}
 
-	private function queryPingContact(){
-        $month  = date('m');
+	private function queryPingContact($month){
+	    if($month == ''){
+            $month  = date('m');
+        }
         $year   = date('Y');
         $days   = cal_days_in_month(CAL_GREGORIAN, $month, $year);
 
-        $from   = date('Y-m-01');
-        $to     = date('Y-m-t');
+        $from   = date('Y-'.$month.'-01');
+        $to     = date('Y-'.$month.'-'.$days);
 
         $query = Helios::where('type', self::TYPE_PING_CONTACT)
             ->where('created_date', '>', $from)
@@ -94,9 +100,28 @@ class ReportApiController extends Controller {
         return $result;
     }
 
-    public function getPingServer1(){
+    public function getPingServer(Request $request){
         try {
-            $data = $this->queryPingServer1();
+            $month      = $request->month;
+            $serverNum  = $request->serverNum;
+            $server     = '';
+
+            if($serverNum == 1){
+                $server = self::IP_SERVER_1;
+            }elseif ($serverNum == 2){
+                $server = self::IP_SERVER_2;
+            }elseif ($serverNum == 3){
+                $server = self::IP_SERVER_3;
+            }elseif ($serverNum == 4){
+                $server = self::IP_SERVER_4;
+            }elseif ($serverNum == 5){
+                $server = self::IP_SERVER_5;
+            }
+
+            if($month < 10){
+                $month = '0'.$month;
+            }
+            $data = $this->queryPingServer($month, $server);
             if(!is_null($data)){
                 if (count($data)) {
                     return $this->responseSuccess(  $data );
@@ -115,16 +140,19 @@ class ReportApiController extends Controller {
         }
     }
 
-    private function queryPingServer1(){
-        $month  = date('m');
+    private function queryPingServer($month, $server){
+        if($month == ''){
+            $month  = date('m');
+        }
+
         $year   = date('Y');
         $days   = cal_days_in_month(CAL_GREGORIAN, $month, $year);
 
-        $from   = date('Y-m-01');
-        $to     = date('Y-m-t');
+        $from   = date('Y-'.$month.'-01');
+        $to     = date('Y-'.$month.'-'.$days);
 
         $query = Helios::where('type', self::TYPE_PING_SERVER)
-            ->where('server', self::IP_SERVER_1)
+            ->where('server', $server)
             ->where('created_date', '>', $from)
             ->where('created_date', '<=', $to)->get();
 
@@ -157,281 +185,9 @@ class ReportApiController extends Controller {
             }
         }
 
-        $result['server'] = self::IP_SERVER_1;
+        $result['server'] = $server;
 
         return $result;
 	}
-
-    public function getPingServer2(){
-        try {
-            $data = $this->queryPingServer2();
-            if(!is_null($data)){
-                if (count($data)) {
-                    return $this->responseSuccess(  $data );
-                }else{
-                    Debug::Error( "ERROR: So luong thong tin tra ve khong co");
-                    return $this->responseError( -1 );
-                }
-            }else {
-                Debug::Error( "ERROR: Ket qua tra ve NULL");
-                return $this->responseError( -1 );
-            }
-        } catch (Exception $e) {
-            Debug::Error("Exception error:" . $e->getMessage() );
-            Debug::Error($e->getTraceAsString());
-            return $this->responseError( -1 );
-        }
-    }
-
-    private function queryPingServer2(){
-        $month  = date('m');
-        $year   = date('Y');
-        $days   = cal_days_in_month(CAL_GREGORIAN, $month, $year);
-
-        $from   = date('Y-m-01');
-        $to     = date('Y-m-t');
-
-        $query = Helios::where('type', self::TYPE_PING_SERVER)
-            ->where('server', self::IP_SERVER_2)
-            ->where('created_date', '>', $from)
-            ->where('created_date', '<=', $to)->get();
-
-        $result = [];
-        if(!is_null($query)){
-
-            $data = [];
-            foreach ($query as $item) {
-                $d = date("d", strtotime($item->created_date));
-
-                if ($item->status == '0') {
-                    @$data['pass'][$d]++;
-                } elseif ($item->status == '1') {
-                    @$data['fail'][$d]++;
-                }
-            }
-
-            for ($i = 1; $i <= $days; $i++) {
-                if(@$data['pass'][$i]){
-                    @$result['pass'][] = ['x' => $i, 'y' => @$data['pass'][$i]];
-                }else{
-                    @$result['pass'][] = ['x' => $i, 'y' => 0];
-                }
-
-                if(@$data['fail'][$i]){
-                    @$result['fail'][] = ['x' => $i, 'y' => @$data['fail'][$i]];
-                }else{
-                    @$result['fail'][] = ['x' => $i, 'y' => 0];
-                }
-            }
-        }
-
-        $result['server'] = self::IP_SERVER_2;
-
-        return $result;
-    }
-
-    public function getPingServer3(){
-        try {
-            $data = $this->queryPingServer3();
-            if(!is_null($data)){
-                if (count($data)) {
-                    return $this->responseSuccess(  $data );
-                }else{
-                    Debug::Error( "ERROR: So luong thong tin tra ve khong co");
-                    return $this->responseError( -1 );
-                }
-            }else {
-                Debug::Error( "ERROR: Ket qua tra ve NULL");
-                return $this->responseError( -1 );
-            }
-        } catch (Exception $e) {
-            Debug::Error("Exception error:" . $e->getMessage() );
-            Debug::Error($e->getTraceAsString());
-            return $this->responseError( -1 );
-        }
-    }
-
-    private function queryPingServer3(){
-        $month  = date('m');
-        $year   = date('Y');
-        $days   = cal_days_in_month(CAL_GREGORIAN, $month, $year);
-
-        $from   = date('Y-m-01');
-        $to     = date('Y-m-t');
-
-        $query = Helios::where('type', self::TYPE_PING_SERVER)
-            ->where('server', self::IP_SERVER_3)
-            ->where('created_date', '>', $from)
-            ->where('created_date', '<=', $to)->get();
-
-        $result = [];
-        if(!is_null($query)){
-
-            $data = [];
-            foreach ($query as $item) {
-                $d = date("d", strtotime($item->created_date));
-
-                if ($item->status == '0') {
-                    @$data['pass'][$d]++;
-                } elseif ($item->status == '1') {
-                    @$data['fail'][$d]++;
-                }
-            }
-
-            for ($i = 1; $i <= $days; $i++) {
-                if(@$data['pass'][$i]){
-                    @$result['pass'][] = ['x' => $i, 'y' => @$data['pass'][$i]];
-                }else{
-                    @$result['pass'][] = ['x' => $i, 'y' => 0];
-                }
-
-                if(@$data['fail'][$i]){
-                    @$result['fail'][] = ['x' => $i, 'y' => @$data['fail'][$i]];
-                }else{
-                    @$result['fail'][] = ['x' => $i, 'y' => 0];
-                }
-            }
-        }
-
-        $result['server'] = self::IP_SERVER_3;
-
-        return $result;
-    }
-
-    public function getPingServer4(){
-        try {
-            $data = $this->queryPingServer4();
-            if(!is_null($data)){
-                if (count($data)) {
-                    return $this->responseSuccess(  $data );
-                }else{
-                    Debug::Error( "ERROR: So luong thong tin tra ve khong co");
-                    return $this->responseError( -1 );
-                }
-            }else {
-                Debug::Error( "ERROR: Ket qua tra ve NULL");
-                return $this->responseError( -1 );
-            }
-        } catch (Exception $e) {
-            Debug::Error("Exception error:" . $e->getMessage() );
-            Debug::Error($e->getTraceAsString());
-            return $this->responseError( -1 );
-        }
-    }
-
-    private function queryPingServer4(){
-        $month  = date('m');
-        $year   = date('Y');
-        $days   = cal_days_in_month(CAL_GREGORIAN, $month, $year);
-
-        $from   = date('Y-m-01');
-        $to     = date('Y-m-t');
-
-        $query = Helios::where('type', self::TYPE_PING_SERVER)
-            ->where('server', self::IP_SERVER_4)
-            ->where('created_date', '>', $from)
-            ->where('created_date', '<=', $to)->get();
-
-        $result = [];
-        if(!is_null($query)){
-
-            $data = [];
-            foreach ($query as $item) {
-                $d = date("d", strtotime($item->created_date));
-
-                if ($item->status == '0') {
-                    @$data['pass'][$d]++;
-                } elseif ($item->status == '1') {
-                    @$data['fail'][$d]++;
-                }
-            }
-
-            for ($i = 1; $i <= $days; $i++) {
-                if(@$data['pass'][$i]){
-                    @$result['pass'][] = ['x' => $i, 'y' => @$data['pass'][$i]];
-                }else{
-                    @$result['pass'][] = ['x' => $i, 'y' => 0];
-                }
-
-                if(@$data['fail'][$i]){
-                    @$result['fail'][] = ['x' => $i, 'y' => @$data['fail'][$i]];
-                }else{
-                    @$result['fail'][] = ['x' => $i, 'y' => 0];
-                }
-            }
-        }
-
-        $result['server'] = self::IP_SERVER_4;
-
-        return $result;
-    }
-
-    public function getPingServer5(){
-        try {
-            $data = $this->queryPingServer5();
-            if(!is_null($data)){
-                if (count($data)) {
-                    return $this->responseSuccess(  $data );
-                }else{
-                    Debug::Error( "ERROR: So luong thong tin tra ve khong co");
-                    return $this->responseError( -1 );
-                }
-            }else {
-                Debug::Error( "ERROR: Ket qua tra ve NULL");
-                return $this->responseError( -1 );
-            }
-        } catch (Exception $e) {
-            Debug::Error("Exception error:" . $e->getMessage() );
-            Debug::Error($e->getTraceAsString());
-            return $this->responseError( -1 );
-        }
-    }
-
-    private function queryPingServer5(){
-        $month  = date('m');
-        $year   = date('Y');
-        $days   = cal_days_in_month(CAL_GREGORIAN, $month, $year);
-
-        $from   = date('Y-m-01');
-        $to     = date('Y-m-t');
-
-        $query = Helios::where('type', self::TYPE_PING_SERVER)
-            ->where('server', self::IP_SERVER_5)
-            ->where('created_date', '>', $from)
-            ->where('created_date', '<=', $to)->get();
-
-        $result = [];
-        if(!is_null($query)){
-
-            $data = [];
-            foreach ($query as $item) {
-                $d = date("d", strtotime($item->created_date));
-
-                if ($item->status == '0') {
-                    @$data['pass'][$d]++;
-                } elseif ($item->status == '1') {
-                    @$data['fail'][$d]++;
-                }
-            }
-
-            for ($i = 1; $i <= $days; $i++) {
-                if(@$data['pass'][$i]){
-                    @$result['pass'][] = ['x' => $i, 'y' => @$data['pass'][$i]];
-                }else{
-                    @$result['pass'][] = ['x' => $i, 'y' => 0];
-                }
-
-                if(@$data['fail'][$i]){
-                    @$result['fail'][] = ['x' => $i, 'y' => @$data['fail'][$i]];
-                }else{
-                    @$result['fail'][] = ['x' => $i, 'y' => 0];
-                }
-            }
-        }
-
-        $result['server'] = self::IP_SERVER_5;
-
-        return $result;
-    }
 
 }

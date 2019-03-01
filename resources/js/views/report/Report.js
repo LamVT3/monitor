@@ -7,25 +7,33 @@ import Popup from 'react-popup';
 class Report extends Component {
     constructor(props) {
         super(props);
+        this.monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+
         this.state = {
-            data_contact_table: '',
-            data_ping_table: '',
-            showModal: false,
-            type: '',
+            contact_month: '',
+            server_1_month: '',
+            server_2_month: '',
+            server_3_month: '',
+            server_4_month: '',
+            server_5_month: '',
         };
+
         this.setChart = this.setChart.bind(this);
+        this.initDropdown = this.initDropdown.bind(this);
+
         this.initPingContactsChart  = this.initPingContactsChart.bind(this);
+        this.initAllPingServerChart = this.initAllPingServerChart.bind(this);
         this.initPingServerChart    = this.initPingServerChart.bind(this);
-        this.initPingServerChart1   = this.initPingServerChart1.bind(this);
-        this.initPingServerChart2   = this.initPingServerChart2.bind(this);
-        this.initPingServerChart3   = this.initPingServerChart3.bind(this);
-        this.initPingServerChart4   = this.initPingServerChart4.bind(this);
-        this.initPingServerChart5   = this.initPingServerChart5.bind(this);
     }
 
     componentDidMount(){
-        this.initPingContactsChart();
-        this.initPingServerChart();
+        let d = new Date();
+        let month = d.getMonth();
+
+        this.initPingContactsChart(month);
+        this.initAllPingServerChart(month);
     }
 
     componentWillUnmount() {
@@ -33,15 +41,6 @@ class Report extends Component {
     }
 
     render() {
-        // function initDropdown(){
-        //     var rs = [];
-        //     for (let i = 0; i < 12; i++) {
-        //         rs.push(<li id="month" value=i><a href="javascript:void(0);">i</a></li>);
-        //     }
-        //
-        //     return rs;
-        // }
-
         return (
             <div>
                 <section className="content-header">
@@ -57,21 +56,21 @@ class Report extends Component {
                                 <div className="box-header">
                                     <h3 className="box-title">Tracking Contact</h3>
                                     <div className="box-tools pull-right">
-                                        {/*<div className="btn-group">*/}
-                                            {/*<button type="button" className="btn btn-success">Action</button>*/}
-                                            {/*<button type="button" className="btn btn-success dropdown-toggle"*/}
-                                                    {/*data-toggle="dropdown">*/}
-                                                {/*<span className="caret"></span>*/}
-                                                {/*<span className="sr-only">Toggle Dropdown</span>*/}
-                                            {/*</button>*/}
-                                            {/*<ul className="dropdown-menu" role="menu">*/}
-                                                {/*{*/}
-                                                    {/*initDropdown()*/}
-                                                {/*}*/}
-                                            {/*</ul>*/}
-                                        {/*</div>*/}
-                                        <button type="button" className="btn btn-box-tool" data-widget="collapse"><i
-                                            className="fa fa-minus"></i>
+                                        <div className="btn-group">
+                                            <button type="button" className="btn btn-success">{this.monthNames[this.state.contact_month]}</button>
+                                            <button type="button" className="btn btn-success dropdown-toggle"
+                                                    data-toggle="dropdown">
+                                                <span className="caret"></span>
+                                                <span className="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <ul className="dropdown-menu" role="menu">
+                                                {
+                                                    this.initDropdown(0)
+                                                }
+                                            </ul>
+                                        </div>
+                                        <button type="button" className="btn btn-box-tool" data-widget="collapse">
+                                            <i className="fa fa-minus"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -84,8 +83,21 @@ class Report extends Component {
                                 <div className="box-header">
                                     <h3 className="box-title">Tracking Server</h3>
                                     <div className="box-tools pull-right">
-                                        <button type="button" className="btn btn-box-tool" data-widget="collapse"><i
-                                            className="fa fa-minus"></i>
+                                        <div className="btn-group">
+                                            <button type="button" className="btn btn-warning">{this.monthNames[this.state.server_1_month]}</button>
+                                            <button type="button" className="btn btn-warning dropdown-toggle"
+                                                    data-toggle="dropdown">
+                                                <span className="caret"></span>
+                                                <span className="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <ul className="dropdown-menu" role="menu">
+                                                {
+                                                    this.initDropdown(1, 1)
+                                                }
+                                            </ul>
+                                        </div>
+                                        <button type="button" className="btn btn-box-tool" data-widget="collapse">
+                                            <i className="fa fa-minus"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -98,8 +110,21 @@ class Report extends Component {
                                 <div className="box-header">
                                     <h3 className="box-title">Tracking Server</h3>
                                     <div className="box-tools pull-right">
-                                        <button type="button" className="btn btn-box-tool" data-widget="collapse"><i
-                                            className="fa fa-minus"></i>
+                                        <div className="btn-group">
+                                            <button type="button" className="btn btn-warning">{this.monthNames[this.state.server_2_month]}</button>
+                                            <button type="button" className="btn btn-warning dropdown-toggle"
+                                                    data-toggle="dropdown">
+                                                <span className="caret"></span>
+                                                <span className="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <ul className="dropdown-menu" role="menu">
+                                                {
+                                                    this.initDropdown(1, 2)
+                                                }
+                                            </ul>
+                                        </div>
+                                        <button type="button" className="btn btn-box-tool" data-widget="collapse">
+                                            <i className="fa fa-minus"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -112,8 +137,21 @@ class Report extends Component {
                                 <div className="box-header">
                                     <h3 className="box-title">Tracking Server</h3>
                                     <div className="box-tools pull-right">
-                                        <button type="button" className="btn btn-box-tool" data-widget="collapse"><i
-                                            className="fa fa-minus"></i>
+                                        <div className="btn-group">
+                                            <button type="button" id="contact_month" className="btn btn-warning">{this.monthNames[this.state.server_3_month]}</button>
+                                            <button type="button" className="btn btn-warning dropdown-toggle"
+                                                    data-toggle="dropdown">
+                                                <span className="caret"></span>
+                                                <span className="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <ul className="dropdown-menu" role="menu">
+                                                {
+                                                    this.initDropdown(1, 3)
+                                                }
+                                            </ul>
+                                        </div>
+                                        <button type="button" className="btn btn-box-tool" data-widget="collapse">
+                                            <i className="fa fa-minus"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -126,8 +164,21 @@ class Report extends Component {
                                 <div className="box-header">
                                     <h3 className="box-title">Tracking Server</h3>
                                     <div className="box-tools pull-right">
-                                        <button type="button" className="btn btn-box-tool" data-widget="collapse"><i
-                                            className="fa fa-minus"></i>
+                                        <div className="btn-group">
+                                            <button type="button" id="contact_month" className="btn btn-warning">{this.monthNames[this.state.server_4_month]}</button>
+                                            <button type="button" className="btn btn-warning dropdown-toggle"
+                                                    data-toggle="dropdown">
+                                                <span className="caret"></span>
+                                                <span className="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <ul className="dropdown-menu" role="menu">
+                                                {
+                                                    this.initDropdown(1, 4)
+                                                }
+                                            </ul>
+                                        </div>
+                                        <button type="button" className="btn btn-box-tool" data-widget="collapse">
+                                            <i className="fa fa-minus"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -140,8 +191,21 @@ class Report extends Component {
                                 <div className="box-header">
                                     <h3 className="box-title">Tracking Server</h3>
                                     <div className="box-tools pull-right">
-                                        <button type="button" className="btn btn-box-tool" data-widget="collapse"><i
-                                            className="fa fa-minus"></i>
+                                        <div className="btn-group">
+                                            <button type="button" id="contact_month" className="btn btn-warning">{this.monthNames[this.state.server_5_month]}</button>
+                                            <button type="button" className="btn btn-warning dropdown-toggle"
+                                                    data-toggle="dropdown">
+                                                <span className="caret"></span>
+                                                <span className="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <ul className="dropdown-menu" role="menu">
+                                                {
+                                                    this.initDropdown(1, 5)
+                                                }
+                                            </ul>
+                                        </div>
+                                        <button type="button" className="btn btn-box-tool" data-widget="collapse">
+                                            <i className="fa fa-minus"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -214,26 +278,33 @@ class Report extends Component {
         chart.render();
     }
 
-    initPingContactsChart() {
-        axios.get('/api/report/get-ping-contact')
+    initPingContactsChart(month) {
+        axios.get('/api/report/get-ping-contact', {params: {month: month + 1}})
             .then(response => {
-                var d = new Date();
-                var currentMonth    = d.getMonth();
-                var currentYear     = d.getFullYear();
+                if (response.data.success === true){
+                    this.setState({
+                        contact_month: month,
+                    });
 
-                var data = {};
-                data.pass = response.data.result.results_contact_pass;
-                data.fail = response.data.result.results_contact_fail;
+                    var d = new Date();
+                    var currentMonth    = month;
+                    var currentYear     = d.getFullYear();
 
-                data.pass.forEach(function(item) {
-                    item.x = new Date(currentYear, currentMonth, item.x);
-                });
+                    var data = {};
+                    data.pass = response.data.result.results_contact_pass;
+                    data.fail = response.data.result.results_contact_fail;
 
-                data.fail.forEach(function(item) {
-                    item.x = new Date(currentYear, currentMonth, item.x);
-                });
+                    data.pass.forEach(function(item) {
+                        item.x = new Date(currentYear, currentMonth, item.x);
+                    });
 
-                this.setChart('ping-contact-chart', data, 'Tracking Contact');
+                    data.fail.forEach(function(item) {
+                        item.x = new Date(currentYear, currentMonth, item.x);
+                    });
+
+                    this.setChart('ping-contact-chart', data, 'Tracking Contact');
+                }else
+                    console.log(response.data.message);
 
             }).catch(error => {
             // LOG.error(error);
@@ -241,34 +312,63 @@ class Report extends Component {
         });
     }
 
-    initPingServerChart() {
-        this.initPingServerChart1();
-        this.initPingServerChart2();
-        this.initPingServerChart3();
-        this.initPingServerChart4();
-        this.initPingServerChart5();
+    initAllPingServerChart(month) {
+        this.initPingServerChart(month, 1);
+        this.initPingServerChart(month, 2);
+        this.initPingServerChart(month, 3);
+        this.initPingServerChart(month, 4);
+        this.initPingServerChart(month, 5);
     }
 
-    initPingServerChart1(){
-        axios.get('/api/report/get-ping-server-1')
+    initPingServerChart(month, server){
+        axios.get('/api/report/get-ping-server',{params: {month: month + 1, serverNum: server}})
             .then(response => {
-                var d = new Date();
-                var currentMonth    = d.getMonth();
-                var currentYear     = d.getFullYear();
+                if (response.data.success === true){
+                    var d = new Date();
+                    var currentMonth    = month;
+                    var currentYear     = d.getFullYear();
 
-                var data = {};
-                data.pass = response.data.result.pass;
-                data.fail = response.data.result.fail;
+                    var data = {};
+                    data.pass = response.data.result.pass;
+                    data.fail = response.data.result.fail;
 
-                data.pass.forEach(function(item) {
-                    item.x = new Date(currentYear, currentMonth, item.x);
-                });
+                    data.pass.forEach(function(item) {
+                        item.x = new Date(currentYear, currentMonth, item.x);
+                    });
 
-                data.fail.forEach(function(item) {
-                    item.x = new Date(currentYear, currentMonth, item.x);
-                });
+                    data.fail.forEach(function(item) {
+                        item.x = new Date(currentYear, currentMonth, item.x);
+                    });
 
-                this.setChart('ping-server-1', data, response.data.result.server);
+                    if(server == 1){
+                        this.setState({
+                            server_1_month: month,
+                        });
+                        this.setChart('ping-server-1', data, response.data.result.server);
+                    }else if(server == 2){
+                        this.setState({
+                            server_2_month: month,
+                        });
+                        this.setChart('ping-server-2', data, response.data.result.server);
+                    }else if(server == 3){
+                        this.setState({
+                            server_3_month: month,
+                        });
+                        this.setChart('ping-server-3', data, response.data.result.server);
+                    }else if(server == 4){
+                        this.setState({
+                            server_4_month: month,
+                        });
+                        this.setChart('ping-server-4', data, response.data.result.server);
+                    }else if(server == 5){
+                        this.setState({
+                            server_5_month: month,
+                        });
+                        this.setChart('ping-server-5', data, response.data.result.server);
+                    }
+
+                }else
+                    console.log(response.data.message);
 
             }).catch(error => {
             // LOG.error(error);
@@ -276,114 +376,25 @@ class Report extends Component {
         });
     }
 
-    initPingServerChart2(){
-        axios.get('/api/report/get-ping-server-2')
-            .then(response => {
-                var d = new Date();
-                var currentMonth    = d.getMonth();
-                var currentYear     = d.getFullYear();
-
-                var data = {};
-                data.pass = response.data.result.pass;
-                data.fail = response.data.result.fail;
-
-                data.pass.forEach(function(item) {
-                    item.x = new Date(currentYear, currentMonth, item.x);
-                });
-
-                data.fail.forEach(function(item) {
-                    item.x = new Date(currentYear, currentMonth, item.x);
-                });
-
-                this.setChart('ping-server-2', data, response.data.result.server);
-
-            }).catch(error => {
-            // LOG.error(error);
-            console.log(error);
-        });
+    initDropdown(type, serverNum){
+        var _this = this;
+        let rs = [];
+        if(type == 0){
+            for (let i = 0; i < 12; i++) {
+                rs.push(<li key={i} id="month" value={i+1}><a href="#" onClick={()=>{
+                    _this.initPingContactsChart(i);
+                }}>{_this.monthNames[i]}</a></li>);
+            }
+        }else if(type == 1){
+            for (let i = 0; i < 12; i++) {
+                rs.push(<li key={i} id="month" value={i+1}><a href="#" onClick={(e)=>{
+                    e.preventDefault();
+                    _this.initPingServerChart(i, serverNum);
+                }}>{_this.monthNames[i]}</a></li>);
+            }
+        }
+        return rs;
     }
-
-    initPingServerChart3(){
-        axios.get('/api/report/get-ping-server-3')
-            .then(response => {
-                var d = new Date();
-                var currentMonth    = d.getMonth();
-                var currentYear     = d.getFullYear();
-
-                var data = {};
-                data.pass = response.data.result.pass;
-                data.fail = response.data.result.fail;
-
-                data.pass.forEach(function(item) {
-                    item.x = new Date(currentYear, currentMonth, item.x);
-                });
-
-                data.fail.forEach(function(item) {
-                    item.x = new Date(currentYear, currentMonth, item.x);
-                });
-
-                this.setChart('ping-server-3', data, response.data.result.server);
-
-            }).catch(error => {
-            // LOG.error(error);
-            console.log(error);
-        });
-    }
-
-    initPingServerChart4(){
-        axios.get('/api/report/get-ping-server-4')
-            .then(response => {
-                var d = new Date();
-                var currentMonth    = d.getMonth();
-                var currentYear     = d.getFullYear();
-
-                var data = {};
-                data.pass = response.data.result.pass;
-                data.fail = response.data.result.fail;
-
-                data.pass.forEach(function(item) {
-                    item.x = new Date(currentYear, currentMonth, item.x);
-                });
-
-                data.fail.forEach(function(item) {
-                    item.x = new Date(currentYear, currentMonth, item.x);
-                });
-
-                this.setChart('ping-server-4', data, response.data.result.server);
-
-            }).catch(error => {
-            // LOG.error(error);
-            console.log(error);
-        });
-    }
-
-    initPingServerChart5(){
-        axios.get('/api/report/get-ping-server-5')
-            .then(response => {
-                var d = new Date();
-                var currentMonth    = d.getMonth();
-                var currentYear     = d.getFullYear();
-
-                var data = {};
-                data.pass = response.data.result.pass;
-                data.fail = response.data.result.fail;
-
-                data.pass.forEach(function(item) {
-                    item.x = new Date(currentYear, currentMonth, item.x);
-                });
-
-                data.fail.forEach(function(item) {
-                    item.x = new Date(currentYear, currentMonth, item.x);
-                });
-
-                this.setChart('ping-server-5', data, response.data.result.server);
-
-            }).catch(error => {
-            // LOG.error(error);
-            console.log(error);
-        });
-    }
-
 }
 
 export default Report;
