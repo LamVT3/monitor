@@ -57,11 +57,9 @@ class Report extends Component {
                                     <h3 className="box-title">Tracking Contact</h3>
                                     <div className="box-tools pull-right">
                                         <div className="btn-group">
-                                            <button type="button" className="btn btn-success">{this.monthNames[this.state.contact_month]}</button>
+                                            <button type="button" className="btn btn-success"></button>
                                             <button type="button" className="btn btn-success dropdown-toggle"
-                                                    data-toggle="dropdown">
-                                                <span className="caret"></span>
-                                                <span className="sr-only">Toggle Dropdown</span>
+                                                    data-toggle="dropdown">{this.monthNames[this.state.contact_month]}
                                             </button>
                                             <ul className="dropdown-menu" role="menu">
                                                 {
@@ -84,11 +82,8 @@ class Report extends Component {
                                     <h3 className="box-title">Tracking Server</h3>
                                     <div className="box-tools pull-right">
                                         <div className="btn-group">
-                                            <button type="button" className="btn btn-warning">{this.monthNames[this.state.server_1_month]}</button>
                                             <button type="button" className="btn btn-warning dropdown-toggle"
-                                                    data-toggle="dropdown">
-                                                <span className="caret"></span>
-                                                <span className="sr-only">Toggle Dropdown</span>
+                                                    data-toggle="dropdown">{this.monthNames[this.state.server_1_month]}
                                             </button>
                                             <ul className="dropdown-menu" role="menu">
                                                 {
@@ -111,11 +106,8 @@ class Report extends Component {
                                     <h3 className="box-title">Tracking Server</h3>
                                     <div className="box-tools pull-right">
                                         <div className="btn-group">
-                                            <button type="button" className="btn btn-warning">{this.monthNames[this.state.server_2_month]}</button>
                                             <button type="button" className="btn btn-warning dropdown-toggle"
-                                                    data-toggle="dropdown">
-                                                <span className="caret"></span>
-                                                <span className="sr-only">Toggle Dropdown</span>
+                                                    data-toggle="dropdown">{this.monthNames[this.state.server_2_month]}
                                             </button>
                                             <ul className="dropdown-menu" role="menu">
                                                 {
@@ -138,11 +130,8 @@ class Report extends Component {
                                     <h3 className="box-title">Tracking Server</h3>
                                     <div className="box-tools pull-right">
                                         <div className="btn-group">
-                                            <button type="button" id="contact_month" className="btn btn-warning">{this.monthNames[this.state.server_3_month]}</button>
                                             <button type="button" className="btn btn-warning dropdown-toggle"
-                                                    data-toggle="dropdown">
-                                                <span className="caret"></span>
-                                                <span className="sr-only">Toggle Dropdown</span>
+                                                    data-toggle="dropdown">{this.monthNames[this.state.server_3_month]}
                                             </button>
                                             <ul className="dropdown-menu" role="menu">
                                                 {
@@ -165,11 +154,8 @@ class Report extends Component {
                                     <h3 className="box-title">Tracking Server</h3>
                                     <div className="box-tools pull-right">
                                         <div className="btn-group">
-                                            <button type="button" id="contact_month" className="btn btn-warning">{this.monthNames[this.state.server_4_month]}</button>
                                             <button type="button" className="btn btn-warning dropdown-toggle"
-                                                    data-toggle="dropdown">
-                                                <span className="caret"></span>
-                                                <span className="sr-only">Toggle Dropdown</span>
+                                                    data-toggle="dropdown">{this.monthNames[this.state.server_4_month]}
                                             </button>
                                             <ul className="dropdown-menu" role="menu">
                                                 {
@@ -192,11 +178,8 @@ class Report extends Component {
                                     <h3 className="box-title">Tracking Server</h3>
                                     <div className="box-tools pull-right">
                                         <div className="btn-group">
-                                            <button type="button" id="contact_month" className="btn btn-warning">{this.monthNames[this.state.server_5_month]}</button>
                                             <button type="button" className="btn btn-warning dropdown-toggle"
-                                                    data-toggle="dropdown">
-                                                <span className="caret"></span>
-                                                <span className="sr-only">Toggle Dropdown</span>
+                                                    data-toggle="dropdown">{this.monthNames[this.state.server_5_month]}
                                             </button>
                                             <ul className="dropdown-menu" role="menu">
                                                 {
