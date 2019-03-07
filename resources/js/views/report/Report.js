@@ -12,12 +12,14 @@ class Report extends Component {
         ];
 
         this.state = {
-            contact_month: '',
-            server_1_month: '',
-            server_2_month: '',
-            server_3_month: '',
-            server_4_month: '',
-            server_5_month: '',
+            db01                  : '',
+            db02                  : '',
+            db03                  : '',
+            shipper               : '',
+            web_portal            : '',
+            public_api            : '',
+            monitor               : '',
+            private_api_worker    : '',
         };
 
         this.setChart = this.setChart.bind(this);
@@ -73,21 +75,21 @@ class Report extends Component {
                                     </div>
                                 </div>
                                 <div className="box-body">
-                                    <div id="ping-contact-chart"></div>
+                                    <div className="helios_chart" id="ping-contact-chart"></div>
                                 </div>
                             </div>
 
                             <div className="box box-warning box-solid">
                                 <div className="box-header">
-                                    <h3 className="box-title">Tracking Server</h3>
+                                    <h3 className="box-title">{this.state.db01.name}</h3>
                                     <div className="box-tools pull-right">
                                         <div className="btn-group">
                                             <button type="button" className="btn btn-warning dropdown-toggle"
-                                                    data-toggle="dropdown">{this.monthNames[this.state.server_1_month]}
+                                                    data-toggle="dropdown">{this.monthNames[this.state.db01.month]}
                                             </button>
                                             <ul className="dropdown-menu" role="menu">
                                                 {
-                                                    this.initDropdown(1, 1)
+                                                    this.initDropdown(1, this.state.db01.name)
                                                 }
                                             </ul>
                                         </div>
@@ -97,21 +99,21 @@ class Report extends Component {
                                     </div>
                                 </div>
                                 <div className="box-body">
-                                    <div id="ping-server-1"></div>
+                                    <div className="helios_chart" id="db01"></div>
                                 </div>
                             </div>
 
                             <div className="box box-warning box-solid">
                                 <div className="box-header">
-                                    <h3 className="box-title">Tracking Server</h3>
+                                    <h3 className="box-title">{this.state.db02.name}</h3>
                                     <div className="box-tools pull-right">
                                         <div className="btn-group">
                                             <button type="button" className="btn btn-warning dropdown-toggle"
-                                                    data-toggle="dropdown">{this.monthNames[this.state.server_2_month]}
+                                                    data-toggle="dropdown">{this.monthNames[this.state.db02.month]}
                                             </button>
                                             <ul className="dropdown-menu" role="menu">
                                                 {
-                                                    this.initDropdown(1, 2)
+                                                    this.initDropdown(1, this.state.db02.name)
                                                 }
                                             </ul>
                                         </div>
@@ -121,21 +123,21 @@ class Report extends Component {
                                     </div>
                                 </div>
                                 <div className="box-body">
-                                    <div id="ping-server-2"></div>
+                                    <div className="helios_chart" id="db02"></div>
                                 </div>
                             </div>
 
                             <div className="box box-warning box-solid">
                                 <div className="box-header">
-                                    <h3 className="box-title">Tracking Server</h3>
+                                    <h3 className="box-title">{this.state.db03.name}</h3>
                                     <div className="box-tools pull-right">
                                         <div className="btn-group">
                                             <button type="button" className="btn btn-warning dropdown-toggle"
-                                                    data-toggle="dropdown">{this.monthNames[this.state.server_3_month]}
+                                                    data-toggle="dropdown">{this.monthNames[this.state.db03.month]}
                                             </button>
                                             <ul className="dropdown-menu" role="menu">
                                                 {
-                                                    this.initDropdown(1, 3)
+                                                    this.initDropdown(1, this.state.db03.name)
                                                 }
                                             </ul>
                                         </div>
@@ -145,21 +147,21 @@ class Report extends Component {
                                     </div>
                                 </div>
                                 <div className="box-body">
-                                    <div id="ping-server-3"></div>
+                                    <div className="helios_chart" id="db03"></div>
                                 </div>
                             </div>
 
                             <div className="box box-warning box-solid">
                                 <div className="box-header">
-                                    <h3 className="box-title">Tracking Server</h3>
+                                    <h3 className="box-title">{this.state.shipper.name}</h3>
                                     <div className="box-tools pull-right">
                                         <div className="btn-group">
                                             <button type="button" className="btn btn-warning dropdown-toggle"
-                                                    data-toggle="dropdown">{this.monthNames[this.state.server_4_month]}
+                                                    data-toggle="dropdown">{this.monthNames[this.state.shipper.month]}
                                             </button>
                                             <ul className="dropdown-menu" role="menu">
                                                 {
-                                                    this.initDropdown(1, 4)
+                                                    this.initDropdown(1, this.state.shipper.name)
                                                 }
                                             </ul>
                                         </div>
@@ -169,21 +171,21 @@ class Report extends Component {
                                     </div>
                                 </div>
                                 <div className="box-body">
-                                    <div id="ping-server-4"></div>
+                                    <div className="helios_chart" id="shipper"></div>
                                 </div>
                             </div>
 
                             <div className="box box-warning box-solid">
                                 <div className="box-header">
-                                    <h3 className="box-title">Tracking Server</h3>
+                                    <h3 className="box-title">{this.state.web_portal.name}</h3>
                                     <div className="box-tools pull-right">
                                         <div className="btn-group">
                                             <button type="button" className="btn btn-warning dropdown-toggle"
-                                                    data-toggle="dropdown">{this.monthNames[this.state.server_5_month]}
+                                                    data-toggle="dropdown">{this.monthNames[this.state.web_portal.month]}
                                             </button>
                                             <ul className="dropdown-menu" role="menu">
                                                 {
-                                                    this.initDropdown(1, 5)
+                                                    this.initDropdown(1, this.state.web_portal.name)
                                                 }
                                             </ul>
                                         </div>
@@ -193,7 +195,79 @@ class Report extends Component {
                                     </div>
                                 </div>
                                 <div className="box-body">
-                                    <div id="ping-server-5"></div>
+                                    <div className="helios_chart" id="web-portal"></div>
+                                </div>
+                            </div>
+
+                            <div className="box box-warning box-solid">
+                                <div className="box-header">
+                                    <h3 className="box-title">{this.state.public_api.name}</h3>
+                                    <div className="box-tools pull-right">
+                                        <div className="btn-group">
+                                            <button type="button" className="btn btn-warning dropdown-toggle"
+                                                    data-toggle="dropdown">{this.monthNames[this.state.public_api.month]}
+                                            </button>
+                                            <ul className="dropdown-menu" role="menu">
+                                                {
+                                                    this.initDropdown(1, this.state.public_api.name)
+                                                }
+                                            </ul>
+                                        </div>
+                                        <button type="button" className="btn btn-box-tool" data-widget="collapse">
+                                            <i className="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="box-body">
+                                    <div className="helios_chart" id="public-api"></div>
+                                </div>
+                            </div>
+
+                            <div className="box box-warning box-solid">
+                                <div className="box-header">
+                                    <h3 className="box-title">{this.state.monitor.name}</h3>
+                                    <div className="box-tools pull-right">
+                                        <div className="btn-group">
+                                            <button type="button" className="btn btn-warning dropdown-toggle"
+                                                    data-toggle="dropdown">{this.monthNames[this.state.monitor.month]}
+                                            </button>
+                                            <ul className="dropdown-menu" role="menu">
+                                                {
+                                                    this.initDropdown(1, this.state.monitor.name)
+                                                }
+                                            </ul>
+                                        </div>
+                                        <button type="button" className="btn btn-box-tool" data-widget="collapse">
+                                            <i className="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="box-body">
+                                    <div className="helios_chart" id="monitor"></div>
+                                </div>
+                            </div>
+
+                            <div className="box box-warning box-solid">
+                                <div className="box-header">
+                                    <h3 className="box-title">{this.state.private_api_worker.name}</h3>
+                                    <div className="box-tools pull-right">
+                                        <div className="btn-group">
+                                            <button type="button" className="btn btn-warning dropdown-toggle"
+                                                    data-toggle="dropdown">{this.monthNames[this.state.private_api_worker.month]}
+                                            </button>
+                                            <ul className="dropdown-menu" role="menu">
+                                                {
+                                                    this.initDropdown(1, this.state.private_api_worker.name)
+                                                }
+                                            </ul>
+                                        </div>
+                                        <button type="button" className="btn btn-box-tool" data-widget="collapse">
+                                            <i className="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="box-body">
+                                    <div className="helios_chart" id="private-api-worker"></div>
                                 </div>
                             </div>
 
@@ -229,9 +303,9 @@ class Report extends Component {
             },
             legend:{
                 cursor:"pointer",
-                verticalAlign: "bottom",
-                horizontalAlign: "left",
-                dockInsidePlotArea: true,
+                verticalAlign: "top",
+                horizontalAlign: "right",
+                // dockInsidePlotArea: true,
                 itemclick: function (e){
                     if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
                         e.dataSeries.visible = false;
@@ -243,20 +317,30 @@ class Report extends Component {
             },
             data: [{
                 type: "line",
-                showInLegend: true,
                 name: 'Fail',
+                showInLegend: true,
                 markerType: "square",
                 xValueFormatString: "DD MMM, YYYY",
+                // yValueFormatString: "#0 (time)",
                 color: "#F08080",
                 dataPoints: data.fail
             },
             {
                 type: "line",
-                showInLegend: true,
                 name: 'Pass',
+                showInLegend: true,
                 lineDashType: "dash",
+                // yValueFormatString: "#0 (time)",
                 dataPoints: data.pass
-            }]
+            },
+            // {
+            //     type: "line",
+            //     showInLegend: true,
+            //     name: 'Rate',
+            //     color: "#008B8B",
+            //     dataPoints: data.rate
+            // }
+            ]
         });
         chart.render();
     }
@@ -276,12 +360,16 @@ class Report extends Component {
                     var data = {};
                     data.pass = response.data.result.results_contact_pass;
                     data.fail = response.data.result.results_contact_fail;
+                    data.rate = response.data.result.rate;
+
 
                     data.pass.forEach(function(item) {
                         item.x = new Date(currentYear, currentMonth, item.x);
                     });
-
                     data.fail.forEach(function(item) {
+                        item.x = new Date(currentYear, currentMonth, item.x);
+                    });
+                    data.rate.forEach(function(item) {
                         item.x = new Date(currentYear, currentMonth, item.x);
                     });
 
@@ -296,59 +384,87 @@ class Report extends Component {
     }
 
     initAllPingServerChart(month) {
-        this.initPingServerChart(month, 1);
-        this.initPingServerChart(month, 2);
-        this.initPingServerChart(month, 3);
-        this.initPingServerChart(month, 4);
-        this.initPingServerChart(month, 5);
-    }
-
-    initPingServerChart(month, server){
-        axios.get('/api/report/get-ping-server',{params: {month: month + 1, serverNum: server}})
+        axios.get('/api/report/get-ping-server',{params: {month: month + 1}})
             .then(response => {
                 if (response.data.success === true){
-                    var d = new Date();
-                    var currentMonth    = month;
-                    var currentYear     = d.getFullYear();
+                    let d = new Date();
+                    let currentMonth    = month;
+                    let currentYear     = d.getFullYear();
+                    let _this = this;
 
-                    var data = {};
-                    data.pass = response.data.result.pass;
-                    data.fail = response.data.result.fail;
+                    var data = response.data.result;
 
-                    data.pass.forEach(function(item) {
-                        item.x = new Date(currentYear, currentMonth, item.x);
+                    Object.keys(data).forEach(function(key) {
+
+                        data[key].pass.forEach(function(item) {
+                            item.x = new Date(currentYear, currentMonth, item.x);
+                        });
+
+                        data[key].fail.forEach(function(item) {
+                            item.x = new Date(currentYear, currentMonth, item.x);
+                        });
+
+                        if(key == 'db01'){
+                            _this.setState({
+                                db01    : {
+                                    month   : month,
+                                    name    : data[key].name
+                                },
+                            });
+                        }else if(key == 'db02'){
+                            _this.setState({
+                                db02    : {
+                                    month   : month,
+                                    name    : data[key].name
+                                },
+                            });
+                        }else if(key == 'db03'){
+                            _this.setState({
+                                db03    : {
+                                    month   : month,
+                                    name    : data[key].name
+                                },
+                            });
+                        }else if(key == 'shipper'){
+                            _this.setState({
+                                shipper    : {
+                                    month   : month,
+                                    name    : data[key].name
+                                },
+                            });
+                        }else if(key == 'web-portal'){
+                            _this.setState({
+                                web_portal    : {
+                                    month   : month,
+                                    name    : data[key].name
+                                },
+                            });
+                        }else if(key == 'public-api'){
+                            _this.setState({
+                                public_api    : {
+                                    month   : month,
+                                    name    : data[key].name
+                                },
+                            });
+                        }else if(key == 'monitor'){
+                            _this.setState({
+                                monitor    : {
+                                    month   : month,
+                                    name    : data[key].name
+                                },
+                            });
+                        }else if(key == 'private-api-worker'){
+                            _this.setState({
+                                private_api_worker    : {
+                                    month   : month,
+                                    name    : data[key].name
+                                },
+                            });
+                        }
+
+                        _this.setChart(key, data[key], data[key].ip);
+
                     });
-
-                    data.fail.forEach(function(item) {
-                        item.x = new Date(currentYear, currentMonth, item.x);
-                    });
-
-                    if(server == 1){
-                        this.setState({
-                            server_1_month: month,
-                        });
-                        this.setChart('ping-server-1', data, response.data.result.server);
-                    }else if(server == 2){
-                        this.setState({
-                            server_2_month: month,
-                        });
-                        this.setChart('ping-server-2', data, response.data.result.server);
-                    }else if(server == 3){
-                        this.setState({
-                            server_3_month: month,
-                        });
-                        this.setChart('ping-server-3', data, response.data.result.server);
-                    }else if(server == 4){
-                        this.setState({
-                            server_4_month: month,
-                        });
-                        this.setChart('ping-server-4', data, response.data.result.server);
-                    }else if(server == 5){
-                        this.setState({
-                            server_5_month: month,
-                        });
-                        this.setChart('ping-server-5', data, response.data.result.server);
-                    }
 
                 }else
                     console.log(response.data.message);
@@ -359,7 +475,99 @@ class Report extends Component {
         });
     }
 
-    initDropdown(type, serverNum){
+    initPingServerChart(month, serverName){
+        axios.get('/api/report/get-ping-server',{params: {month: month + 1, serverName: serverName}})
+            .then(response => {
+                if (response.data.success === true){
+                    let d = new Date();
+                    let currentMonth    = month;
+                    let currentYear     = d.getFullYear();
+                    let _this = this;
+
+                    var data = response.data.result;
+
+                    Object.keys(data).forEach(function(key) {
+
+                        data[key].pass.forEach(function(item) {
+                            item.x = new Date(currentYear, currentMonth, item.x);
+                        });
+
+                        data[key].fail.forEach(function(item) {
+                            item.x = new Date(currentYear, currentMonth, item.x);
+                        });
+
+                        if(key == 'db01'){
+                            _this.setState({
+                                db01    : {
+                                    month   : month,
+                                    name    : data[key].name
+                                },
+                            });
+                        }else if(key == 'db02'){
+                            _this.setState({
+                                db02    : {
+                                    month   : month,
+                                    name    : data[key].name
+                                },
+                            });
+                        }else if(key == 'db03'){
+                            _this.setState({
+                                db03    : {
+                                    month   : month,
+                                    name    : data[key].name
+                                },
+                            });
+                        }else if(key == 'shipper'){
+                            _this.setState({
+                                shipper    : {
+                                    month   : month,
+                                    name    : data[key].name
+                                },
+                            });
+                        }else if(key == 'web-portal'){
+                            _this.setState({
+                                web_portal    : {
+                                    month   : month,
+                                    name    : data[key].name
+                                },
+                            });
+                        }else if(key == 'public-api'){
+                            _this.setState({
+                                public_api    : {
+                                    month   : month,
+                                    name    : data[key].name
+                                },
+                            });
+                        }else if(key == 'monitor'){
+                            _this.setState({
+                                monitor    : {
+                                    month   : month,
+                                    name    : data[key].name
+                                },
+                            });
+                        }else if(key == 'private-api-worker'){
+                            _this.setState({
+                                private_api_worker    : {
+                                    month   : month,
+                                    name    : data[key].name
+                                },
+                            });
+                        }
+
+                        _this.setChart(key, data[key], data[key].ip);
+
+                    });
+
+                }else
+                    console.log(response.data.message);
+
+            }).catch(error => {
+            // LOG.error(error);
+            console.log(error);
+        });
+    }
+
+    initDropdown(type, serverName){
         var _this = this;
         let rs = [];
         if(type == 0){
@@ -372,7 +580,7 @@ class Report extends Component {
             for (let i = 0; i < 12; i++) {
                 rs.push(<li key={i} id="month" value={i+1}><a href="#" onClick={(e)=>{
                     e.preventDefault();
-                    _this.initPingServerChart(i, serverNum);
+                    _this.initPingServerChart(i, serverName);
                 }}>{_this.monthNames[i]}</a></li>);
             }
         }
