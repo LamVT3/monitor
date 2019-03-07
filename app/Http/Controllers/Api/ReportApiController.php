@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Config;
 use App\Helios;
+use App\Server;
 use App\Http\Controllers\Controller;
+use App\System;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Exception;
@@ -14,6 +16,7 @@ class ReportApiController extends Controller {
 
     const TYPE_PING_CONTACT = 0;
     const TYPE_PING_SERVER  = 1;
+    const HELIOS_SERVER_NAME  = 'helios';
     const IP_SERVER_1 = '42.115.221.30';
     const IP_SERVER_2 = '42.115.221.43';
     const IP_SERVER_3 = '42.115.221.99';
@@ -66,14 +69,15 @@ class ReportApiController extends Controller {
             $results_contact_fail   = [];
             $data_contact_pass      = [];
             $data_contact_fail      = [];
+            $rate                   = [];
 
             foreach ($query as $item){
                 $d = date("d", strtotime($item->created_date));
 
                 if($item->status == '0'){
-                    @$data_contact_pass[$d]++;
+                    @$data_contact_pass[(int)$d]++;
                 }elseif ($item->status == '1'){
-                    @$data_contact_fail[$d]++;
+                    @$data_contact_fail[(int)$d]++;
                 }
             }
 
@@ -89,11 +93,20 @@ class ReportApiController extends Controller {
                 }else{
                     @$results_contact_fail[] = ['x' => $i, 'y' => 0];
                 }
+
+                if(@$data_contact_pass[$i] != 0 || @$data_contact_fail[$i] != 0){
+                    $total = @$data_contact_fail[$i] +  @$data_contact_pass[$i];
+                    $rate[] = ['x' => $i, 'y' => @$data_contact_pass[$i] * 100 / $total];
+                }else{
+                    $rate[] = ['x' => $i, 'y' => 0];
+                }
+
             }
 
             $result = [
-                'results_contact_pass' => $results_contact_pass,
-                'results_contact_fail' => $results_contact_fail
+                'results_contact_pass'  => $results_contact_pass,
+                'results_contact_fail'  => $results_contact_fail,
+                'rate'                  => $rate
             ];
 
         }
@@ -103,20 +116,9 @@ class ReportApiController extends Controller {
     public function getPingServer(Request $request){
         try {
             $month      = $request->month;
-            $serverNum  = $request->serverNum;
-            $server     = '';
+            $serverName = $request->serverName;
 
-            if($serverNum == 1){
-                $server = self::IP_SERVER_1;
-            }elseif ($serverNum == 2){
-                $server = self::IP_SERVER_2;
-            }elseif ($serverNum == 3){
-                $server = self::IP_SERVER_3;
-            }elseif ($serverNum == 4){
-                $server = self::IP_SERVER_4;
-            }elseif ($serverNum == 5){
-                $server = self::IP_SERVER_5;
-            }
+            $server = $this->getHeliosServer($serverName);
 
             if($month < 10){
                 $month = '0'.$month;
@@ -141,6 +143,8 @@ class ReportApiController extends Controller {
     }
 
     private function queryPingServer($month, $server){
+        $result = [];
+
         if($month == ''){
             $month  = date('m');
         }
@@ -152,42 +156,64 @@ class ReportApiController extends Controller {
         $to     = date('Y-'.$month.'-'.$days);
 
         $query = Helios::where('type', self::TYPE_PING_SERVER)
-            ->where('server', $server)
+            ->whereIn('server', array_values($server))
             ->where('created_date', '>', $from)
-            ->where('created_date', '<=', $to)->get();
+            ->where('created_date', '<=', $to)
+            ->get();
 
-        $result = [];
         if(!is_null($query)){
-
-            $data = [];
+            $data   = [];
             foreach ($query as $item) {
                 $d = date("d", strtotime($item->created_date));
 
                 if ($item->status == '0') {
-                    @$data['pass'][$d]++;
+                    @$data[$item->server]['pass'][(int)$d]++;
                 } elseif ($item->status == '1') {
-                    @$data['fail'][$d]++;
+                    @$data[$item->server]['fail'][(int)$d]++;
                 }
             }
 
             for ($i = 1; $i <= $days; $i++) {
-                if(@$data['pass'][$i]){
-                    @$result['pass'][] = ['x' => $i, 'y' => @$data['pass'][$i]];
-                }else{
-                    @$result['pass'][] = ['x' => $i, 'y' => 0];
-                }
+                foreach ($server as $key => $value){
+                    $slug = str_slug($key);
 
-                if(@$data['fail'][$i]){
-                    @$result['fail'][] = ['x' => $i, 'y' => @$data['fail'][$i]];
-                }else{
-                    @$result['fail'][] = ['x' => $i, 'y' => 0];
+                    if(@$data[$value]['pass'][$i]){
+                        @$result[$slug]['pass'][] = ['x' => $i, 'y' => @$data[$value]['pass'][$i]];
+                    }else{
+                        @$result[$slug]['pass'][] = ['x' => $i, 'y' => 0];
+                    }
+
+                    if(@$data['fail'][$i]){
+                        @$result[$slug]['fail'][] = ['x' => $i, 'y' => @$data[$value]['fail'][$i]];
+                    }else{
+                        @$result[$slug]['fail'][] = ['x' => $i, 'y' => 0];
+                    }
+
+                    @$result[$slug]['name'] = $key;
+                    @$result[$slug]['ip']   = $server[$key];
                 }
             }
         }
 
-        $result['server'] = $server;
-
         return $result;
 	}
+
+	function getHeliosServer($serverName){
+	    $helios     = System::where('name', self::HELIOS_SERVER_NAME)->first();
+        $servers     = [];
+	    if(!is_null($helios)){
+	        if($serverName){
+                $servers = Server::where('system_id', $helios->id)
+                    ->where('name', $serverName)
+                    ->pluck('address', 'name')
+                    ->toArray();
+            }else{
+                $servers = Server::where('system_id', $helios->id)
+                    ->pluck('address', 'name')
+                    ->toArray();
+            }
+        }
+	    return $servers;
+    }
 
 }
