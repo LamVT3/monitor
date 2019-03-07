@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import {HashRouter, Redirect} from "react-router-dom";
 import axios            from 'axios';
 import {Button, Modal}  from 'react-bootstrap';
-import Helper from "../../helper/Helper";
+import Helper from "@/helper/Helper";
 import Popup from 'react-popup';
 import TableTracking from "./TableTracking";
 
