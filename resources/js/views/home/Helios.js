@@ -137,7 +137,7 @@ class Helios extends Component {
     render() {
 
         let thead_array = {
-            "contact": ["Created_date", "Check_from", "Check_to", "Status", "Sender"],
+            "contact": ["Created_date", "Status", "Check_from", "Check_to", "Sender"],
             "ping": ["Created_date", "Status", "Server", "Sender"],
         };
         let thead_contact = thead_array['contact'].map(function (value,key) {
