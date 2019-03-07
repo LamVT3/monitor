@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import {HashRouter, Redirect} from "react-router-dom";
+import React, { Component, Fragment} from 'react';
 import Helios from "./Helios";
 
 export default class Home extends Component {
@@ -8,20 +7,10 @@ export default class Home extends Component {
     }
 
     render() {
-        // let login = localStorage.getItem('jwt');
-        // if (!login) {
-        //     console.log('here');
-        //     return (
-        //             <div>
-        //                 <Redirect to='/auth/login'/>
-        //             </div>
-        //     )
-        // }
-
         return (
-            <div>
+            <Fragment>
                 <Helios />
-            </div>
+            </Fragment>
 
     );
     }

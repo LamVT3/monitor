@@ -21,19 +21,6 @@ class HeliosController extends Controller {
 
 			if(!is_null($results_contact)){
 				if (count($results_contact)) {
-					foreach ($results_contact as $result){
-						$result->status == 1 ? $result->status = "Fail" : $result->status = "OK";
-						if (!empty($result->check_from)) $result->check_from = date('d-m-Y h:i:s', (string)$result->check_from / 1000);
-						else $result->check_from = 'N/a';
-
-						if (!empty($result->check_to)) $result->check_to = date('d-m-Y h:i:s', (string)$result->check_to / 1000);
-						else $result->check_to = 'N/a';
-					}
-
-					foreach ($results_ping as $result){
-						$result->status == 1 ? $result->status = "Fail" : $result->status = "OK";
-					}
-
 					$data = [
 						"results_contact" =>$results_contact,
 						"results_ping" =>$results_ping,
@@ -55,17 +42,18 @@ class HeliosController extends Controller {
 		}
 	}
 
-	public function getConfigContact(){
+	public function getConfig(Request $request){
 		try {
 			if ($this->checkRole() == false) return $this->responsePermission();
 
-			$config = Config::where('type', 'helios_contact')->first();
+			$config = Config::where('type', $request->type)->first();
 
 			if(!is_null($config)){
 				$data = [
-					'reciptent' => $config->reciptent,
+					'recipient' => $config->recipient,
 					'interval' => $config->interval,
-					'status' => $config->status
+					'status' => $config->status,
+					'type' => $request->type
 				];
 
 				return $this->responseSuccess(  $data );
@@ -84,7 +72,7 @@ class HeliosController extends Controller {
 		try {
 			if ($this->checkRole() == false) return $this->responsePermission();
 
-			$reciptent = $request->reciptent;
+			$reciptent = $request->recipient;
 			$interval = $request->interval;
 			$status = $request->status;
 			$type = $request->type;
@@ -94,12 +82,12 @@ class HeliosController extends Controller {
 			if ($config == null){
 				$config = new Config();
 				$config->type = $type;
-				$config->reciptent = $reciptent;
+				$config->recipient = $reciptent;
 				$config->interval = $interval;
 				$config->status = $status;
 				$config->save();
 			}else{
-				$config->reciptent = $reciptent;
+				$config->recipient = $reciptent;
 				$config->interval = $interval;
 				$config->status = $status;
 				$config->save();
@@ -120,28 +108,4 @@ class HeliosController extends Controller {
 		}
 	}
 
-	public function getConfigPing(){
-		try {
-			if ($this->checkRole() == false) return $this->responsePermission();
-
-			$config = Config::where('type', 'helios_ping')->first();
-
-			if(!is_null($config)){
-				$data = [
-					'reciptent' => $config->reciptent,
-					'interval' => $config->interval,
-					'status' => $config->status
-				];
-
-				return $this->responseSuccess(  $data );
-			}else {
-				Debug::Error( "ERROR: Ket qua tra ve NULL");
-				return $this->responseError( -1 );
-			}
-		} catch (Exception $e) {
-			Debug::Error("Exception error:" . $e->getMessage() );
-			Debug::Error($e->getTraceAsString());
-			return $this->responseError( -1 );
-		}
-	}
 }

@@ -27,7 +27,7 @@ class Sidebar extends Component {
                                 </li>
                             </ul>
                         </li>
-                        <li><a href="#"><i className="fa fa-book"></i> <span>Documentation</span></a></li>
+                        {/*<li><a href="#"><i className="fa fa-book"></i> <span>Documentation</span></a></li>*/}
                     </ul>
                 </section>
             </aside>
