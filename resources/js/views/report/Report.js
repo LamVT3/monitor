@@ -293,7 +293,8 @@ class Report extends Component {
                 }
             },
             axisY: {
-                title: 'Number of Tracking',
+                title: '',
+                valueFormatString: "#0%"
                 // crosshair: {
                 //     enabled: true
                 // }
@@ -318,28 +319,33 @@ class Report extends Component {
             data: [{
                 type: "line",
                 name: 'Fail',
-                showInLegend: true,
+                visible: false,
+                showInLegend: false,
                 markerType: "square",
                 xValueFormatString: "DD MMM, YYYY",
-                // yValueFormatString: "#0 (time)",
+                yValueFormatString: "#0 (times)",
                 color: "#F08080",
                 dataPoints: data.fail
             },
             {
                 type: "line",
                 name: 'Pass',
-                showInLegend: true,
-                lineDashType: "dash",
-                // yValueFormatString: "#0 (time)",
+                visible: false,
+                showInLegend: false,
+                color: "#1E90FF",
+                // lineDashType: "dash",
+                yValueFormatString: "#0 (times)",
                 dataPoints: data.pass
             },
-            // {
-            //     type: "line",
-            //     showInLegend: true,
-            //     name: 'Rate',
-            //     color: "#008B8B",
-            //     dataPoints: data.rate
-            // }
+            {
+                type: "line",
+                showInLegend: false,
+                name: 'Rate',
+                color: "#00a65a",
+                lineDashType: "dash",
+                yValueFormatString: "0 (%)",
+                dataPoints: data.rate
+            }
             ]
         });
         chart.render();
@@ -371,6 +377,15 @@ class Report extends Component {
                     });
                     data.rate.forEach(function(item) {
                         item.x = new Date(currentYear, currentMonth, item.x);
+                        if(item.y * 100 == 100){
+                            item.indexLabel     = '100%';
+                            item.markerType     = 'square';
+                            item.markerColor    = '#00a65a';
+                        }else{
+                            item.indexLabel     = item.y * 100 + '%';
+                            item.markerType     = 'cross';
+                            item.markerColor    = 'tomato';
+                        }
                     });
 
                     this.setChart('ping-contact-chart', data, 'Tracking Contact');
@@ -399,9 +414,20 @@ class Report extends Component {
                         data[key].pass.forEach(function(item) {
                             item.x = new Date(currentYear, currentMonth, item.x);
                         });
-
                         data[key].fail.forEach(function(item) {
                             item.x = new Date(currentYear, currentMonth, item.x);
+                        });
+                        data[key].rate.forEach(function(item) {
+                            item.x = new Date(currentYear, currentMonth, item.x);
+                            if(item.y * 100 == 100){
+                                item.indexLabel     = '100%';
+                                item.markerType     = 'square';
+                                item.markerColor    = '#00a65a';
+                            }else{
+                                item.indexLabel     = item.y * 100 + '%';
+                                item.markerType     = 'cross';
+                                item.markerColor    = 'tomato';
+                            }
                         });
 
                         if(key == 'db01'){
@@ -491,10 +517,22 @@ class Report extends Component {
                         data[key].pass.forEach(function(item) {
                             item.x = new Date(currentYear, currentMonth, item.x);
                         });
-
                         data[key].fail.forEach(function(item) {
                             item.x = new Date(currentYear, currentMonth, item.x);
                         });
+                        data[key].rate.forEach(function(item) {
+                            item.x = new Date(currentYear, currentMonth, item.x);
+                            if(item.y * 100 == 100){
+                                item.indexLabel     = '100%';
+                                item.markerType     = 'square';
+                                item.markerColor    = '#00a65a';
+                            }else{
+                                item.indexLabel     = item.y * 100 + '%';
+                                item.markerType     = 'cross';
+                                item.markerColor    = 'tomato';
+                            }
+                        });
+
 
                         if(key == 'db01'){
                             _this.setState({
