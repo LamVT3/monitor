@@ -26,8 +26,7 @@ Route::get('/login', 'SocialAuthGoogleController@login');
 Route::get('/logout', 'SocialAuthGoogleController@logout');
 
 Route::get('/api/helios/all', 'Api\HeliosController@all');
-Route::get('/api/helios/get-config-contact', 'Api\HeliosController@getConfigContact');
-Route::get('/api/helios/get-config-ping', 'Api\HeliosController@getConfigPing');
+Route::get('/api/helios/get-config', 'Api\HeliosController@getConfig');
 Route::post('/api/helios/config', 'Api\HeliosController@postConfig');
 
 Route::get('/report', REACT_DEFAULT_ROUTER);
