@@ -96,11 +96,10 @@ class ReportApiController extends Controller {
 
                 if(@$data_contact_pass[$i] != 0 || @$data_contact_fail[$i] != 0){
                     $total = @$data_contact_fail[$i] +  @$data_contact_pass[$i];
-                    $rate[] = ['x' => $i, 'y' => @$data_contact_pass[$i] * 100 / $total];
+                    $rate[] = ['x' => $i, 'y' => round(@$data_contact_pass[$i] / $total, 2)];
                 }else{
                     $rate[] = ['x' => $i, 'y' => 0];
                 }
-
             }
 
             $result = [
@@ -183,10 +182,17 @@ class ReportApiController extends Controller {
                         @$result[$slug]['pass'][] = ['x' => $i, 'y' => 0];
                     }
 
-                    if(@$data['fail'][$i]){
+                    if(@$data[$value]['fail'][$i]){
                         @$result[$slug]['fail'][] = ['x' => $i, 'y' => @$data[$value]['fail'][$i]];
                     }else{
                         @$result[$slug]['fail'][] = ['x' => $i, 'y' => 0];
+                    }
+
+                    if(@$data[$value]['pass'][$i] != 0 || @$data[$value]['fail'][$i] != 0){
+                        $total = @$data[$value]['pass'][$i] +  @$data[$value]['fail'][$i];
+                        @$result[$slug]['rate'][] = ['x' => $i, 'y' => round(@$data[$value]['pass'][$i] / $total, 2)];
+                    }else{
+                        @$result[$slug]['rate'][] = ['x' => $i, 'y' => 0];
                     }
 
                     @$result[$slug]['name'] = $key;
