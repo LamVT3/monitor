@@ -1,6 +1,7 @@
 import React, { Component, Fragment} from 'react';
+import {connect} from 'react-redux'
 
-export default class TableTracking extends Component{
+class TableTracking extends Component{
     constructor(props) {
         super(props);
     }
@@ -36,3 +37,11 @@ export default class TableTracking extends Component{
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    // return {
+    //     tbody_data : state.tableTrackingReducer
+    // }
+};
+
+export default (TableTracking)

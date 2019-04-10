@@ -102,30 +102,32 @@ class Helios extends Component {
     }
 
     componentDidMount(){
-        axios.get('/api/helios/all')
-            .then(response => {
-                if (response.data.success === true){
-                    this.setState({
-                        data_table: response.data.result,
-                    });
+        if (this.state.data_table == null) {
+            axios.get('/api/helios/all')
+                .then(response => {
+                    if (response.data.success === true){
+                        this.setState({
+                            data_table: response.data.result,
+                        });
 
-                    $('.helios_table').DataTable({
-                        'paging'      : true,
-                        'lengthChange': true,
-                        'searching'   : true,
-                        'order': [[ 0, 'desc' ]],
-                        'info'        : true,
-                        'autoWidth'   : true
-                    });
+                        $('.helios_table').DataTable({
+                            'paging'      : true,
+                            'lengthChange': true,
+                            'searching'   : true,
+                            'order': [[ 0, 'desc' ]],
+                            'info'        : true,
+                            'autoWidth'   : true
+                        });
 
-                }
-                else
-                    console.log(response.data.message);
+                    }
+                    else
+                        console.log(response.data.message);
 
-            }).catch(error => {
-            // LOG.error(error);
-            console.log(error);
-        });
+                }).catch(error => {
+                // LOG.error(error);
+                console.log(error);
+            });
+        }
 
         document.addEventListener('mousedown', this.onClickOutside);
     }
