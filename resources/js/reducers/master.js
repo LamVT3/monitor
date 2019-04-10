@@ -1,8 +1,9 @@
 import {combineReducers} from "redux";
-import tableTrackingReducer from './TableTrackingReducer.js'
+import heliosReducer from './HeliosReducer'
+
 
 const masterReducer = combineReducers({
-    tableTrackingReducer : tableTrackingReducer
+    heliosReducer : heliosReducer
 });
 
 export default masterReducer;

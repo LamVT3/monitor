@@ -1,10 +1,11 @@
 import React, { Component, Fragment } from 'react';
-import {HashRouter, Redirect} from "react-router-dom";
 import axios            from 'axios';
-import {Button, Modal}  from 'react-bootstrap';
+import {Modal}  from 'react-bootstrap';
 import Helper from "@/helper/Helper";
 import Popup from 'react-popup';
 import TableTracking from "./TableTracking";
+import {connect} from 'react-redux'
+import * as ACTIONS from './../../actions/Actions'
 
 class Helios extends Component {
     constructor(props) {
@@ -102,13 +103,15 @@ class Helios extends Component {
     }
 
     componentDidMount(){
-        if (this.state.data_table == null) {
+
+        if (this.props.data_table == null) {
             axios.get('/api/helios/all')
                 .then(response => {
                     if (response.data.success === true){
-                        this.setState({
-                            data_table: response.data.result,
-                        });
+                        this.props.setDataTable(response.data.result);
+                        // this.setState({
+                        //     data_table: response.data.result,
+                        // });
 
                         $('.helios_table').DataTable({
                             'paging'      : true,
@@ -150,8 +153,8 @@ class Helios extends Component {
         });
         let tbody_contact = '';
         let tbody_ping = '';
-        if (this.state.data_table !== null && this.state.data_table.results_contact !== null) {
-            tbody_contact = this.state.data_table.results_contact.map(function(info,index){
+        if (this.props.data_table !== null && this.props.data_table.results_contact !== null) {
+            tbody_contact = this.props.data_table.results_contact.map(function(info,index){
                 return (
                     <tr key={index}>
                         <td>{ info.created_date }</td>
@@ -164,8 +167,8 @@ class Helios extends Component {
             });
         }
 
-        if (this.state.data_table !== null && this.state.data_table.results_ping !== null) {
-            tbody_ping = this.state.data_table.results_ping.map(function(info,index){
+        if (this.props.data_table !== null && this.props.data_table.results_ping !== null) {
+            tbody_ping = this.props.data_table.results_ping.map(function(info,index){
                 return (
                     <tr key={index}>
                         <td>{ info.created_date } </td>
@@ -255,5 +258,19 @@ class Helios extends Component {
     }
 }
 
-export default Helios;
+const mapStateToProps = (state) => {
+    return {
+        data_table : state.heliosReducer.data
+    }
+};
+
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        setDataTable: (result) => {
+            dispatch(ACTIONS.dataTable(result));
+        }
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Helios);
 

@@ -38,10 +38,4 @@ class TableTracking extends Component{
     }
 }
 
-const mapStateToProps = (state) => {
-    // return {
-    //     tbody_data : state.tableTrackingReducer
-    // }
-};
-
-export default (TableTracking)
+export default TableTracking
