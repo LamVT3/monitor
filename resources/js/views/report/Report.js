@@ -54,13 +54,12 @@ class Report extends Component {
                 <section className="content">
                     <div className="row">
                         <div className="col-md-12 col-sm-12 col-xs-12">
-                            <div className="box box-success box-solid">
+                            <div className="box">
                                 <div className="box-header">
                                     <h3 className="box-title">Tracking Contact</h3>
                                     <div className="box-tools pull-right">
                                         <div className="btn-group">
-                                            <button type="button" className="btn btn-success"></button>
-                                            <button type="button" className="btn btn-success dropdown-toggle"
+                                            <button type="button" className="btn btn-dark-mode dropdown-toggle"
                                                     data-toggle="dropdown">{this.monthNames[this.state.contact_month]}
                                             </button>
                                             <ul className="dropdown-menu" role="menu">
@@ -79,12 +78,12 @@ class Report extends Component {
                                 </div>
                             </div>
 
-                            <div className="box box-warning box-solid">
+                            <div className="box">
                                 <div className="box-header">
                                     <h3 className="box-title">{this.state.db01.name}</h3>
                                     <div className="box-tools pull-right">
                                         <div className="btn-group">
-                                            <button type="button" className="btn btn-warning dropdown-toggle"
+                                            <button type="button" className="btn btn-dark-mode dropdown-toggle"
                                                     data-toggle="dropdown">{this.monthNames[this.state.db01.month]}
                                             </button>
                                             <ul className="dropdown-menu" role="menu">
@@ -103,12 +102,12 @@ class Report extends Component {
                                 </div>
                             </div>
 
-                            <div className="box box-warning box-solid">
+                            <div className="box">
                                 <div className="box-header">
                                     <h3 className="box-title">{this.state.db02.name}</h3>
                                     <div className="box-tools pull-right">
                                         <div className="btn-group">
-                                            <button type="button" className="btn btn-warning dropdown-toggle"
+                                            <button type="button" className="btn btn-dark-mode dropdown-toggle"
                                                     data-toggle="dropdown">{this.monthNames[this.state.db02.month]}
                                             </button>
                                             <ul className="dropdown-menu" role="menu">
@@ -127,12 +126,12 @@ class Report extends Component {
                                 </div>
                             </div>
 
-                            <div className="box box-warning box-solid">
+                            <div className="box">
                                 <div className="box-header">
                                     <h3 className="box-title">{this.state.db03.name}</h3>
                                     <div className="box-tools pull-right">
                                         <div className="btn-group">
-                                            <button type="button" className="btn btn-warning dropdown-toggle"
+                                            <button type="button" className="btn btn-dark-mode dropdown-toggle"
                                                     data-toggle="dropdown">{this.monthNames[this.state.db03.month]}
                                             </button>
                                             <ul className="dropdown-menu" role="menu">
@@ -151,12 +150,12 @@ class Report extends Component {
                                 </div>
                             </div>
 
-                            <div className="box box-warning box-solid">
+                            <div className="box">
                                 <div className="box-header">
                                     <h3 className="box-title">{this.state.shipper.name}</h3>
                                     <div className="box-tools pull-right">
                                         <div className="btn-group">
-                                            <button type="button" className="btn btn-warning dropdown-toggle"
+                                            <button type="button" className="btn btn-dark-mode dropdown-toggle"
                                                     data-toggle="dropdown">{this.monthNames[this.state.shipper.month]}
                                             </button>
                                             <ul className="dropdown-menu" role="menu">
@@ -175,12 +174,12 @@ class Report extends Component {
                                 </div>
                             </div>
 
-                            <div className="box box-warning box-solid">
+                            <div className="box">
                                 <div className="box-header">
                                     <h3 className="box-title">{this.state.web_portal.name}</h3>
                                     <div className="box-tools pull-right">
                                         <div className="btn-group">
-                                            <button type="button" className="btn btn-warning dropdown-toggle"
+                                            <button type="button" className="btn btn-dark-mode dropdown-toggle"
                                                     data-toggle="dropdown">{this.monthNames[this.state.web_portal.month]}
                                             </button>
                                             <ul className="dropdown-menu" role="menu">
@@ -199,12 +198,12 @@ class Report extends Component {
                                 </div>
                             </div>
 
-                            <div className="box box-warning box-solid">
+                            <div className="box">
                                 <div className="box-header">
                                     <h3 className="box-title">{this.state.public_api.name}</h3>
                                     <div className="box-tools pull-right">
                                         <div className="btn-group">
-                                            <button type="button" className="btn btn-warning dropdown-toggle"
+                                            <button type="button" className="btn btn-dark-mode dropdown-toggle"
                                                     data-toggle="dropdown">{this.monthNames[this.state.public_api.month]}
                                             </button>
                                             <ul className="dropdown-menu" role="menu">
@@ -223,12 +222,12 @@ class Report extends Component {
                                 </div>
                             </div>
 
-                            <div className="box box-warning box-solid">
+                            <div className="box">
                                 <div className="box-header">
                                     <h3 className="box-title">{this.state.monitor.name}</h3>
                                     <div className="box-tools pull-right">
                                         <div className="btn-group">
-                                            <button type="button" className="btn btn-warning dropdown-toggle"
+                                            <button type="button" className="btn btn-dark-mode dropdown-toggle"
                                                     data-toggle="dropdown">{this.monthNames[this.state.monitor.month]}
                                             </button>
                                             <ul className="dropdown-menu" role="menu">
@@ -247,12 +246,12 @@ class Report extends Component {
                                 </div>
                             </div>
 
-                            <div className="box box-warning box-solid">
+                            <div className="box">
                                 <div className="box-header">
                                     <h3 className="box-title">{this.state.private_api_worker.name}</h3>
                                     <div className="box-tools pull-right">
                                         <div className="btn-group">
-                                            <button type="button" className="btn btn-warning dropdown-toggle"
+                                            <button type="button" className="btn btn-dark-mode dropdown-toggle"
                                                     data-toggle="dropdown">{this.monthNames[this.state.private_api_worker.month]}
                                             </button>
                                             <ul className="dropdown-menu" role="menu">
@@ -281,12 +280,15 @@ class Report extends Component {
     setChart(item, data, chart_name){
         var chart = new CanvasJS.Chart(item, {
             animationEnabled: true,
-            theme: "light2",
+            theme: "dark1",
+            backgroundColor: "#2F2F2F",
             title:{
                 text: chart_name
             },
             axisX:{
                 valueFormatString: "DD MMM",
+                interval: 1,
+                intervalType: "day",
                 crosshair: {
                     enabled: true,
                     snapToDataPoint: true
@@ -382,7 +384,7 @@ class Report extends Component {
                             item.markerType     = 'square';
                             item.markerColor    = '#00a65a';
                         }else{
-                            item.indexLabel     = item.y * 100 + '%';
+                            item.indexLabel     = (item.y * 100).toFixed() + '%';
                             item.markerType     = 'cross';
                             item.markerColor    = 'tomato';
                         }

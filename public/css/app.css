@@ -227,3 +227,29 @@
     height: 200px;
     width: 100%;
 }
+
+/*custom dark mode*/
+.custom_dark_mode{
+    color: #b8c7ce !important;
+}
+.content-wrapper{
+    background-color: #222222 !important;
+}
+.table-dark{
+    background-color: #2F2F2F !important;
+}
+.box{
+    background-color: #2F2F2F !important;
+}
+.box-header{
+    color: white;
+}
+.btn-dark-mode{
+    background-color: #2F2F2F;
+}
+.btn-dark-mode:hover{
+    background-color: #222222;
+    color: #b8c7ce;
+}
+/*custom dark mode*/
+

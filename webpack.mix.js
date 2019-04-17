@@ -19,3 +19,4 @@ mix.webpackConfig({
     }
 });
 mix.react('resources/js/app.js', 'public/js');
+mix.styles('public/dist/css/skins/_all-skins.css', 'public/dist/css/skins/_all-skins.min.css');

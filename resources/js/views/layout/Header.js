@@ -14,7 +14,7 @@ class Header extends Component{
         return (
             <header className="main-header">
                 <Link to="/" className="logo">
-                    <span className="logo-mini"><b> <i className="fa fa-dashboard"></i></b></span>
+                    <span className="logo-mini"><b> <i className="fa fa-tv"></i></b></span>
                     <span className="logo-lg"><b> Monitor</b> NTL</span>
                 </Link>
 

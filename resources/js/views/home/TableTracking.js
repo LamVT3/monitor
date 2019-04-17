@@ -17,7 +17,7 @@ class TableTracking extends Component{
                         </button>
                     </div>
                     <div className="box-body">
-                        <table className="helios_table table table-bordered table-striped">
+                        <table className="helios_table table table-bordered table-dark">
                             <thead>
                                 <tr>
                                     {

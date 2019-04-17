@@ -44,7 +44,7 @@
         <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
     </head>
-    <body class="hold-transition skin-blue sidebar-mini sidebar-collapse" style="background-color:#d2d6de !important;">
+    <body class="hold-transition skin-black custom_dark_mode sidebar-mini sidebar-collapse" style="background-color:#d2d6de !important;">
         <div id="root" style="position: unset">
         </div>
 
