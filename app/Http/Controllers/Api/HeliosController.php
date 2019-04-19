@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Config;
 use App\Helios;
 use App\Http\Controllers\Controller;
+use GuzzleHttp\Client;
+use function GuzzleHttp\Psr7\str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Exception;
@@ -96,7 +98,20 @@ class HeliosController extends Controller {
 			if(!is_null($config)){
 				$data = $config;
 
-				return $this->responseSuccess(  $data );
+				if ($config->status == 0 && $type == 'helios-ping'){
+					$rs = $this->runCronjob("tuanta3", "/usr/bin/python /opt/monitor_ntl/helios_ping_server.py", (int)$config->interval);
+					if ($rs == 'True'){
+						return $this->responseSuccess(  $data );
+					}
+				}
+				elseif ($config->status == 0 && $type == 'helios-contact'){
+				    $rs = $this->runCronjob("tuanta3", "/usr/bin/python /opt/monitor_ntl/helios_check_contact.py", (int)$config->interval);
+					if ($rs == 'True'){
+						return $this->responseSuccess(  $data );
+					}
+				}
+
+				return $this->responseError( -1 );
 			}else {
 				Debug::Error( "ERROR: Ket qua tra ve NULL");
 				return $this->responseError( -1 );
@@ -106,6 +121,16 @@ class HeliosController extends Controller {
 			Debug::Error($e->getTraceAsString());
 			return $this->responseError( -1 );
 		}
+	}
+
+	private function runCronjob($user, $cmd, $interval){
+		$client = new Client();
+		$res = $client->get('http://42.113.206.207:8181/api/cronjob' . '?user=' . $user . '&cmd=' . $cmd . '&interval=' . $interval);
+		$response_data = null;
+		if ($res->getStatusCode() == 200) {
+			$response_data = json_decode($res->getBody())->status;
+		}
+		return $response_data;
 	}
 
 }
