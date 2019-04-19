@@ -110,6 +110,18 @@ class HeliosController extends Controller {
 						return $this->responseSuccess(  $data );
 					}
 				}
+				elseif ($config->status == 1 && $type == 'helios-contact'){
+					$rs = $this->stopCronjob("tuanta3", "/usr/bin/python /opt/monitor_ntl/helios_check_contact.py");
+					if ($rs == 'True'){
+						return $this->responseSuccess(  $data );
+					}
+				}
+				elseif ($config->status == 1 && $type == 'helios-contact'){
+					$rs = $this->stopCronjob("tuanta3", "/usr/bin/python /opt/monitor_ntl/helios_check_contact.py");
+					if ($rs == 'True'){
+						return $this->responseSuccess(  $data );
+					}
+				}
 
 				return $this->responseError( -1 );
 			}else {
@@ -125,7 +137,17 @@ class HeliosController extends Controller {
 
 	private function runCronjob($user, $cmd, $interval){
 		$client = new Client();
-		$res = $client->get('http://42.113.206.207:8181/api/cronjob' . '?user=' . $user . '&cmd=' . $cmd . '&interval=' . $interval);
+		$res = $client->get('http://42.113.206.207:8181/api/cronjob/run' . '?user=' . $user . '&cmd=' . $cmd . '&interval=' . $interval);
+		$response_data = null;
+		if ($res->getStatusCode() == 200) {
+			$response_data = json_decode($res->getBody())->status;
+		}
+		return $response_data;
+	}
+
+	private function stopCronjob($user, $cmd){
+		$client = new Client();
+		$res = $client->get('http://42.113.206.207:8181/api/cronjob/stop' . '?user=' . $user . '&cmd=' . $cmd);
 		$response_data = null;
 		if ($res->getStatusCode() == 200) {
 			$response_data = json_decode($res->getBody())->status;
