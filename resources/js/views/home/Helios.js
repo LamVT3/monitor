@@ -226,10 +226,12 @@ class Helios extends Component {
                                 <label>Set interval:</label>
                                 <select name="interval" onChange={this.onChange} className="form-control" defaultValue={this.state.interval !== null ? this.state.interval : ''}>
                                     <option value="">Select time</option>
+                                    <option value="1">1 minutes</option>
+                                    <option value="5">5 minutes</option>
+                                    <option value="10">10 minutes</option>
                                     <option value="15">15 minutes</option>
                                     <option value="30">30 minutes</option>
                                     <option value="45">45 minutes</option>
-                                    <option value="60">1 hour</option>
                                 </select>
                             </div>
                             <div className="col-md-12 mt-10">
