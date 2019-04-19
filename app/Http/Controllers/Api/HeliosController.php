@@ -110,8 +110,8 @@ class HeliosController extends Controller {
 						return $this->responseSuccess(  $data );
 					}
 				}
-				elseif ($config->status == 1 && $type == 'helios-contact'){
-					$rs = $this->stopCronjob("tuanta3", "/usr/bin/python /opt/monitor_ntl/helios_check_contact.py");
+				elseif ($config->status == 1 && $type == 'helios-ping'){
+					$rs = $this->stopCronjob("tuanta3", "/usr/bin/python /opt/monitor_ntl/helios_ping_server.py");
 					if ($rs == 'True'){
 						return $this->responseSuccess(  $data );
 					}
