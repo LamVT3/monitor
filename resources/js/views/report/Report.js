@@ -59,7 +59,6 @@ class Report extends Component {
                                     <h3 className="box-title">Tracking Contact</h3>
                                     <div className="box-tools pull-right">
                                         <div className="btn-group">
-                                            <button type="button" className="btn btn-success"></button>
                                             <button type="button" className="btn btn-success dropdown-toggle"
                                                     data-toggle="dropdown">{this.monthNames[this.state.contact_month]}
                                             </button>
@@ -287,6 +286,8 @@ class Report extends Component {
             },
             axisX:{
                 valueFormatString: "DD MMM",
+                interval: 1,
+                intervalType: "day",
                 crosshair: {
                     enabled: true,
                     snapToDataPoint: true
@@ -382,7 +383,7 @@ class Report extends Component {
                             item.markerType     = 'square';
                             item.markerColor    = '#00a65a';
                         }else{
-                            item.indexLabel     = item.y * 100 + '%';
+                            item.indexLabel     = (item.y * 100).toFixed(1) + '%';
                             item.markerType     = 'cross';
                             item.markerColor    = 'tomato';
                         }
@@ -424,7 +425,7 @@ class Report extends Component {
                                 item.markerType     = 'square';
                                 item.markerColor    = '#00a65a';
                             }else{
-                                item.indexLabel     = item.y * 100 + '%';
+                                item.indexLabel     = (item.y * 100).toFixed(1) + '%';
                                 item.markerType     = 'cross';
                                 item.markerColor    = 'tomato';
                             }
@@ -527,7 +528,7 @@ class Report extends Component {
                                 item.markerType     = 'square';
                                 item.markerColor    = '#00a65a';
                             }else{
-                                item.indexLabel     = item.y * 100 + '%';
+                                item.indexLabel     = (item.y * 100).toFixed(1) + '%';
                                 item.markerType     = 'cross';
                                 item.markerColor    = 'tomato';
                             }

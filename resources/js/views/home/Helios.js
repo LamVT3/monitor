@@ -4,6 +4,7 @@ import {Modal}  from 'react-bootstrap';
 import Helper from "@/helper/Helper";
 import Popup from 'react-popup';
 import TableTracking from "./TableTracking";
+import WidgetTracking from "./WidgetTracking";
 import {connect} from 'react-redux'
 import * as ACTIONS from './../../actions/Actions'
 
@@ -12,12 +13,14 @@ class Helios extends Component {
         super(props);
         this.state = {
             data_table: null,
+            data_widget:null,
             showModal: false
         };
         this.close = this.close.bind(this);
         this.submit = this.submit.bind(this);
         this.setWrapperRef = this.setWrapperRef.bind(this);
         this.onClickOutside = this.onClickOutside.bind(this);
+        this.getDataWidget  = this.getDataWidget.bind(this);
 
     }
 
@@ -69,6 +72,23 @@ class Helios extends Component {
         });
     }
 
+    getDataWidget(){
+        if (this.props.data_widget == null) {
+            axios.get('/api/report/get-data-widget')
+                .then(response => {
+                    if (response.data.success === true){
+                        this.props.setDataWidget(response.data.result);
+                    }
+                    else
+                        console.log(response.data.message);
+
+                }).catch(error => {
+                // LOG.error(error);
+                console.log(error);
+            });
+        }
+    }
+
     submit(event) {
         event.preventDefault();
         let recipient = this.state.recipient;
@@ -103,6 +123,23 @@ class Helios extends Component {
     }
 
     componentDidMount(){
+
+        // this.getDataWidget();
+
+        if (this.props.data_widget == null) {
+            axios.get('/api/report/get-data-widget')
+                .then(response => {
+                    if (response.data.success === true){
+                        this.props.setDataWidget(response.data.result);
+                    }
+                    else
+                        console.log(response.data.message);
+
+                }).catch(error => {
+                // LOG.error(error);
+                console.log(error);
+            });
+        }
 
         if (this.props.data_table == null) {
             axios.get('/api/helios/all')
@@ -180,6 +217,21 @@ class Helios extends Component {
             })
         }
 
+        let widgetTracking = '';
+        if(this.props.data_widget !== null){
+            widgetTracking = this.props.data_widget.map(function(info,index){
+                return (
+                    <WidgetTracking
+                        key={index}
+                        server_name={info.server_name}
+                        server={info.server}
+                        rate={info.rate}
+                        message={info.message}
+                    />
+                    )
+            })
+        }
+
         return (
             <Fragment>
                 <section className="content-header">
@@ -189,6 +241,10 @@ class Helios extends Component {
                 </section>
 
                 <section className="content">
+                    <div className="row">
+                        {widgetTracking}
+                    </div>
+
                     <div className="row">
                         <div className="col-md-12 col-sm-12 col-xs-12">
                             <TableTracking
@@ -262,7 +318,8 @@ class Helios extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        data_table : state.heliosReducer.data
+        data_table : state.heliosReducer.data,
+        data_widget : state.heliosReducer.data_widget
     }
 };
 
@@ -270,7 +327,10 @@ const mapDispatchToProps = (dispatch, props) => {
     return {
         setDataTable: (result) => {
             dispatch(ACTIONS.dataTable(result));
-        }
+        },
+        setDataWidget: (result) => {
+            dispatch(ACTIONS.dataWidget(result));
+        },
     }
 };
 

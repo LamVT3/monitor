@@ -6,3 +6,10 @@ export const dataTable = (data) => {
         data: data
     }
 };
+
+export const dataWidget = (data) => {
+    return {
+        type: ACTION_TYPES.HELIOS_DATA_WIDGET,
+        data: data
+    }
+};

@@ -204,7 +204,7 @@ class ReportApiController extends Controller {
         return $result;
 	}
 
-	function getHeliosServer($serverName){
+	function getHeliosServer($serverName = null){
 	    $helios     = System::where('name', self::HELIOS_SERVER_NAME)->first();
         $servers     = [];
 	    if(!is_null($helios)){
@@ -220,6 +220,122 @@ class ReportApiController extends Controller {
             }
         }
 	    return $servers;
+    }
+
+    public function getDataWidget(Request $request){
+        try {
+            $server = $this->getHeliosServer();
+
+            $data = $this->queryDataWidget($server);
+            if(!is_null($data)){
+                if (count($data)) {
+                    return $this->responseSuccess(  $data );
+                }else{
+                    Debug::Error( "ERROR: So luong thong tin tra ve khong co");
+                    return $this->responseError( -1 );
+                }
+            }else {
+                Debug::Error( "ERROR: Ket qua tra ve NULL");
+                return $this->responseError( -1 );
+            }
+        } catch (Exception $e) {
+            Debug::Error("Exception error:" . $e->getMessage() );
+            Debug::Error($e->getTraceAsString());
+            return $this->responseError( -1 );
+        }
+    }
+
+    private function queryDataWidget($server){
+
+	    $result = [];
+
+        $from   = date('Y-m-d');
+        $to     = date('Y-m-d',strtotime($from . "+1 days"));
+
+        $query = Helios::where('type', self::TYPE_PING_SERVER)
+            ->whereIn('server', array_values($server))
+            ->where('created_date', '>', $from)
+            ->where('created_date', '<=', $to)
+            ->get();
+
+        $data   = [];
+        if(!is_null($query)){
+            foreach ($query as $item) {
+                if ($item->status == '0') {
+                    @$data[$item->server_name]['pass']++;
+                } elseif ($item->status == '1') {
+                    @$data[$item->server_name]['fail']++;
+                }
+            }
+
+            foreach ($data as $key => $value) {
+                $item = [];
+                $total = @$value['pass'] + @$value['fail'];
+                $item['pass'] = @$value['pass'];
+                $item['fail'] = @$value['fail'];
+                $item['server'] = @$server[$key];
+                $item['server_name'] = $key;
+                $item['rate'] = round($value['pass'] / $total, 2);
+                if($item['rate'] * 100 > 50){
+                    $time = $this->getLastStatus('up', $item['server']);
+                    if($time != 'N/A'){
+                        $item['message'] = 'Last down '.$time. ' ago';
+                    }else{
+                        $item['message'] = 'N/A';
+                    }
+
+                }else{
+                    $time = $this->getLastStatus('down', $item['server']);
+                    if($time != 'N/A'){
+                        $item['message'] = 'Last up '.$time. ' ago';
+                    }else{
+                        $item['message'] = 'N/A';
+                    }
+                }
+                $result[] = $item;
+            }
+        }
+
+        return $result;
+    }
+
+    private function getLastStatus($status, $server){
+	    if($status == 'up'){
+            $query = Helios::where('type', self::TYPE_PING_SERVER)
+                ->where('server', $server)
+                ->where('status', '1')
+                ->orderBy('created_date', 'desc')
+                ->first();
+        }else{
+            $query = Helios::where('type', self::TYPE_PING_SERVER)
+                ->where('server', $server)
+                ->where('status', '0')
+                ->orderBy('created_date', 'desc')
+                ->first();
+        }
+
+	    if(!$query){
+            return 'N/A';
+        }
+
+        $date1 = @$query->created_date;
+        $date2 = date('Y-m-d h:m:i');
+
+        $diff = abs(strtotime($date2) - strtotime($date1));
+
+        $years  = floor($diff / (365*60*60*24));
+        $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+        $days   = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+        $hours  = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24) * 24);
+
+        $result = '';
+        if($hours < 24){
+            $result .= $hours.' hours ';
+        }else{
+            $result .= $days.' days ';
+        }
+
+        return $result;
     }
 
 }
