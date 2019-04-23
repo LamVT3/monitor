@@ -13,3 +13,10 @@ export const dataWidget = (data) => {
         data: data
     }
 };
+
+export const ipphoneDataTable = (data) => {
+    return {
+        type: ACTION_TYPES.IPPHONE_DATA_TRACKING,
+        data: data
+    }
+};

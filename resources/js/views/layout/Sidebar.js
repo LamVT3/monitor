@@ -23,7 +23,22 @@ class Sidebar extends Component {
                                 </span>
                             </a>
                             <ul className="treeview-menu">
-                                <li><a href="/report"><i className="fa fa-circle-o"></i> Report</a>
+                                <li><a href="/helios-table"><i className="fa fa-circle-o"></i> Table</a>
+                                </li>
+                                <li><a href="/helios-report"><i className="fa fa-circle-o"></i> Report</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li className="treeview">
+                            <a href="#">
+                                <i className="fa fa-phone"></i>
+                                <span>IP Phone</span>
+                                <span className="pull-right-container">
+                                  <i className="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul className="treeview-menu">
+                                <li><a href="/ipphone-table"><i className="fa fa-circle-o"></i> Table</a>
                                 </li>
                             </ul>
                         </li>

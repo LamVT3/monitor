@@ -25,11 +25,17 @@ Route::get('/auth/callback', 'SocialAuthGoogleController@callback');
 Route::get('/login', 'SocialAuthGoogleController@login');
 Route::get('/logout', 'SocialAuthGoogleController@logout');
 
+Route::get('/helios-table', REACT_DEFAULT_ROUTER);
 Route::get('/api/helios/all', 'Api\HeliosController@all');
 Route::get('/api/helios/get-config', 'Api\HeliosController@getConfig');
 Route::post('/api/helios/config', 'Api\HeliosController@postConfig');
 
-Route::get('/report', REACT_DEFAULT_ROUTER);
+Route::get('/helios-report', REACT_DEFAULT_ROUTER);
 Route::get('/api/report/get-ping-contact', 'Api\ReportApiController@getPingContact');
 Route::get('/api/report/get-ping-server', 'Api\ReportApiController@getPingServer');
 Route::get('/api/report/get-data-widget', 'Api\ReportApiController@getDataWidget');
+
+Route::get('/ipphone-table', REACT_DEFAULT_ROUTER);
+Route::get('/api/ipphone/all', 'Api\IPPhoneController@all');
+Route::get('/api/ipphone/get-config', 'Api\IPPhoneController@getConfig');
+Route::post('/api/ipphone/config', 'Api\IPPhoneController@postConfig');

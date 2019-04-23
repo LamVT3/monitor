@@ -1,5 +1,5 @@
-import React, { Component, Fragment} from 'react';
-import Helios from "./Helios";
+import React, { Component } from 'react';
+import {Redirect} from "react-router-dom";
 
 export default class Home extends Component {
     constructor(props) {
@@ -7,12 +7,7 @@ export default class Home extends Component {
     }
 
     render() {
-        return (
-            <Fragment>
-                <Helios />
-            </Fragment>
-
-    );
+        return <Redirect to='/helios-table' />
     }
 }
 
