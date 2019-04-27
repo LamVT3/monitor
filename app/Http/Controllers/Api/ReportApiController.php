@@ -113,6 +113,7 @@ class ReportApiController extends Controller {
     }
 
     public function getPingServer(Request $request){
+        ini_set('memory_limit','500M');
         try {
             $month      = $request->month;
             $serverName = $request->serverName;
