@@ -159,7 +159,6 @@ class ReportApiController extends Controller {
             ->where('created_date', '>', $from)
             ->where('created_date', '<=', $to)
             ->get();
-
         if(!is_null($query)){
             $data   = [];
             foreach ($query as $item) {
@@ -197,6 +196,7 @@ class ReportApiController extends Controller {
 
                     @$result[$slug]['name'] = $key;
                     @$result[$slug]['ip']   = $server[$key];
+                    @$result[$slug]['month'] = intval($month);
                 }
             }
         }

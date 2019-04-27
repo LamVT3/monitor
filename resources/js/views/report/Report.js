@@ -12,14 +12,7 @@ class Report extends Component {
         ];
 
         this.state = {
-            db01                  : '',
-            db02                  : '',
-            db03                  : '',
-            shipper               : '',
-            web_portal            : '',
-            public_api            : '',
-            monitor               : '',
-            private_api_worker    : '',
+            data    : null
         };
 
         this.setChart = this.setChart.bind(this);
@@ -43,6 +36,41 @@ class Report extends Component {
     }
 
     render() {
+        let list_server_chart = '';
+        let _this = this;
+
+        if(this.state.data !== null){
+
+            let data = this.state.data;
+            list_server_chart = Object.keys(data).map(function(key){
+                return (
+                    <div key={key} className="box box-warning box-solid">
+                        <div className="box-header">
+                            <h3 className="box-title">{data[key].name}</h3>
+                            <div className="box-tools pull-right">
+                                <div className="btn-group">
+                                    <button type="button" className="btn btn-warning dropdown-toggle"
+                                        data-toggle="dropdown">{_this.monthNames[data[key].month]}
+                                    </button>
+                                    <ul className="dropdown-menu" role="menu">
+                                        {
+                                            _this.initDropdown(1, _this.state.data[key].name)
+                                        }
+                                    </ul>
+                                </div>
+                                <button type="button" className="btn btn-box-tool" data-widget="collapse">
+                                    <i className="fa fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div className="box-body">
+                            <div className="helios_chart" id={key}></div>
+                        </div>
+                    </div>
+                )
+            })
+        }
+
         return (
             <div>
                 <section className="content-header">
@@ -78,197 +106,7 @@ class Report extends Component {
                                 </div>
                             </div>
 
-                            <div className="box box-warning box-solid">
-                                <div className="box-header">
-                                    <h3 className="box-title">{this.state.db01.name}</h3>
-                                    <div className="box-tools pull-right">
-                                        <div className="btn-group">
-                                            <button type="button" className="btn btn-warning dropdown-toggle"
-                                                    data-toggle="dropdown">{this.monthNames[this.state.db01.month]}
-                                            </button>
-                                            <ul className="dropdown-menu" role="menu">
-                                                {
-                                                    this.initDropdown(1, this.state.db01.name)
-                                                }
-                                            </ul>
-                                        </div>
-                                        <button type="button" className="btn btn-box-tool" data-widget="collapse">
-                                            <i className="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div className="box-body">
-                                    <div className="helios_chart" id="db01"></div>
-                                </div>
-                            </div>
-
-                            <div className="box box-warning box-solid">
-                                <div className="box-header">
-                                    <h3 className="box-title">{this.state.db02.name}</h3>
-                                    <div className="box-tools pull-right">
-                                        <div className="btn-group">
-                                            <button type="button" className="btn btn-warning dropdown-toggle"
-                                                    data-toggle="dropdown">{this.monthNames[this.state.db02.month]}
-                                            </button>
-                                            <ul className="dropdown-menu" role="menu">
-                                                {
-                                                    this.initDropdown(1, this.state.db02.name)
-                                                }
-                                            </ul>
-                                        </div>
-                                        <button type="button" className="btn btn-box-tool" data-widget="collapse">
-                                            <i className="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div className="box-body">
-                                    <div className="helios_chart" id="db02"></div>
-                                </div>
-                            </div>
-
-                            <div className="box box-warning box-solid">
-                                <div className="box-header">
-                                    <h3 className="box-title">{this.state.db03.name}</h3>
-                                    <div className="box-tools pull-right">
-                                        <div className="btn-group">
-                                            <button type="button" className="btn btn-warning dropdown-toggle"
-                                                    data-toggle="dropdown">{this.monthNames[this.state.db03.month]}
-                                            </button>
-                                            <ul className="dropdown-menu" role="menu">
-                                                {
-                                                    this.initDropdown(1, this.state.db03.name)
-                                                }
-                                            </ul>
-                                        </div>
-                                        <button type="button" className="btn btn-box-tool" data-widget="collapse">
-                                            <i className="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div className="box-body">
-                                    <div className="helios_chart" id="db03"></div>
-                                </div>
-                            </div>
-
-                            <div className="box box-warning box-solid">
-                                <div className="box-header">
-                                    <h3 className="box-title">{this.state.shipper.name}</h3>
-                                    <div className="box-tools pull-right">
-                                        <div className="btn-group">
-                                            <button type="button" className="btn btn-warning dropdown-toggle"
-                                                    data-toggle="dropdown">{this.monthNames[this.state.shipper.month]}
-                                            </button>
-                                            <ul className="dropdown-menu" role="menu">
-                                                {
-                                                    this.initDropdown(1, this.state.shipper.name)
-                                                }
-                                            </ul>
-                                        </div>
-                                        <button type="button" className="btn btn-box-tool" data-widget="collapse">
-                                            <i className="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div className="box-body">
-                                    <div className="helios_chart" id="shipper"></div>
-                                </div>
-                            </div>
-
-                            <div className="box box-warning box-solid">
-                                <div className="box-header">
-                                    <h3 className="box-title">{this.state.web_portal.name}</h3>
-                                    <div className="box-tools pull-right">
-                                        <div className="btn-group">
-                                            <button type="button" className="btn btn-warning dropdown-toggle"
-                                                    data-toggle="dropdown">{this.monthNames[this.state.web_portal.month]}
-                                            </button>
-                                            <ul className="dropdown-menu" role="menu">
-                                                {
-                                                    this.initDropdown(1, this.state.web_portal.name)
-                                                }
-                                            </ul>
-                                        </div>
-                                        <button type="button" className="btn btn-box-tool" data-widget="collapse">
-                                            <i className="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div className="box-body">
-                                    <div className="helios_chart" id="web-portal"></div>
-                                </div>
-                            </div>
-
-                            <div className="box box-warning box-solid">
-                                <div className="box-header">
-                                    <h3 className="box-title">{this.state.public_api.name}</h3>
-                                    <div className="box-tools pull-right">
-                                        <div className="btn-group">
-                                            <button type="button" className="btn btn-warning dropdown-toggle"
-                                                    data-toggle="dropdown">{this.monthNames[this.state.public_api.month]}
-                                            </button>
-                                            <ul className="dropdown-menu" role="menu">
-                                                {
-                                                    this.initDropdown(1, this.state.public_api.name)
-                                                }
-                                            </ul>
-                                        </div>
-                                        <button type="button" className="btn btn-box-tool" data-widget="collapse">
-                                            <i className="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div className="box-body">
-                                    <div className="helios_chart" id="public-api"></div>
-                                </div>
-                            </div>
-
-                            <div className="box box-warning box-solid">
-                                <div className="box-header">
-                                    <h3 className="box-title">{this.state.monitor.name}</h3>
-                                    <div className="box-tools pull-right">
-                                        <div className="btn-group">
-                                            <button type="button" className="btn btn-warning dropdown-toggle"
-                                                    data-toggle="dropdown">{this.monthNames[this.state.monitor.month]}
-                                            </button>
-                                            <ul className="dropdown-menu" role="menu">
-                                                {
-                                                    this.initDropdown(1, this.state.monitor.name)
-                                                }
-                                            </ul>
-                                        </div>
-                                        <button type="button" className="btn btn-box-tool" data-widget="collapse">
-                                            <i className="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div className="box-body">
-                                    <div className="helios_chart" id="monitor"></div>
-                                </div>
-                            </div>
-
-                            <div className="box box-warning box-solid">
-                                <div className="box-header">
-                                    <h3 className="box-title">{this.state.private_api_worker.name}</h3>
-                                    <div className="box-tools pull-right">
-                                        <div className="btn-group">
-                                            <button type="button" className="btn btn-warning dropdown-toggle"
-                                                    data-toggle="dropdown">{this.monthNames[this.state.private_api_worker.month]}
-                                            </button>
-                                            <ul className="dropdown-menu" role="menu">
-                                                {
-                                                    this.initDropdown(1, this.state.private_api_worker.name)
-                                                }
-                                            </ul>
-                                        </div>
-                                        <button type="button" className="btn btn-box-tool" data-widget="collapse">
-                                            <i className="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div className="box-body">
-                                    <div className="helios_chart" id="private-api-worker"></div>
-                                </div>
-                            </div>
+                            {list_server_chart}
 
                         </div>
                     </div>
@@ -409,6 +247,9 @@ class Report extends Component {
                     let _this = this;
 
                     var data = response.data.result;
+                    this.setState({
+                        data    : data,
+                    });
 
                     Object.keys(data).forEach(function(key) {
 
@@ -430,64 +271,6 @@ class Report extends Component {
                                 item.markerColor    = 'tomato';
                             }
                         });
-
-                        if(key == 'db01'){
-                            _this.setState({
-                                db01    : {
-                                    month   : month,
-                                    name    : data[key].name
-                                },
-                            });
-                        }else if(key == 'db02'){
-                            _this.setState({
-                                db02    : {
-                                    month   : month,
-                                    name    : data[key].name
-                                },
-                            });
-                        }else if(key == 'db03'){
-                            _this.setState({
-                                db03    : {
-                                    month   : month,
-                                    name    : data[key].name
-                                },
-                            });
-                        }else if(key == 'shipper'){
-                            _this.setState({
-                                shipper    : {
-                                    month   : month,
-                                    name    : data[key].name
-                                },
-                            });
-                        }else if(key == 'web-portal'){
-                            _this.setState({
-                                web_portal    : {
-                                    month   : month,
-                                    name    : data[key].name
-                                },
-                            });
-                        }else if(key == 'public-api'){
-                            _this.setState({
-                                public_api    : {
-                                    month   : month,
-                                    name    : data[key].name
-                                },
-                            });
-                        }else if(key == 'monitor'){
-                            _this.setState({
-                                monitor    : {
-                                    month   : month,
-                                    name    : data[key].name
-                                },
-                            });
-                        }else if(key == 'private-api-worker'){
-                            _this.setState({
-                                private_api_worker    : {
-                                    month   : month,
-                                    name    : data[key].name
-                                },
-                            });
-                        }
 
                         _this.setChart(key, data[key], data[key].ip);
 
@@ -533,65 +316,6 @@ class Report extends Component {
                                 item.markerColor    = 'tomato';
                             }
                         });
-
-
-                        if(key == 'db01'){
-                            _this.setState({
-                                db01    : {
-                                    month   : month,
-                                    name    : data[key].name
-                                },
-                            });
-                        }else if(key == 'db02'){
-                            _this.setState({
-                                db02    : {
-                                    month   : month,
-                                    name    : data[key].name
-                                },
-                            });
-                        }else if(key == 'db03'){
-                            _this.setState({
-                                db03    : {
-                                    month   : month,
-                                    name    : data[key].name
-                                },
-                            });
-                        }else if(key == 'shipper'){
-                            _this.setState({
-                                shipper    : {
-                                    month   : month,
-                                    name    : data[key].name
-                                },
-                            });
-                        }else if(key == 'web-portal'){
-                            _this.setState({
-                                web_portal    : {
-                                    month   : month,
-                                    name    : data[key].name
-                                },
-                            });
-                        }else if(key == 'public-api'){
-                            _this.setState({
-                                public_api    : {
-                                    month   : month,
-                                    name    : data[key].name
-                                },
-                            });
-                        }else if(key == 'monitor'){
-                            _this.setState({
-                                monitor    : {
-                                    month   : month,
-                                    name    : data[key].name
-                                },
-                            });
-                        }else if(key == 'private-api-worker'){
-                            _this.setState({
-                                private_api_worker    : {
-                                    month   : month,
-                                    name    : data[key].name
-                                },
-                            });
-                        }
 
                         _this.setChart(key, data[key], data[key].ip);
 
