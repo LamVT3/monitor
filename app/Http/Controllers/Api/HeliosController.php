@@ -20,7 +20,8 @@ class HeliosController extends Controller {
 
 			$date = date('Y-m-d');
 			$results_contact = Helios::where('type', 0)->where('created_date', 'like', '%' . $date . '%')->get();
-			$results_ping = Helios::where('type', 1)->where('created_date', 'like', '%' . $date . '%')->get();
+			#$results_ping = Helios::where('type', 1)->where('created_date', 'like', '%' . $date . '%')->get();
+			$results_ping = [];
 			if(!is_null($results_contact)){
 				if (count($results_contact)) {
 					$data = [
