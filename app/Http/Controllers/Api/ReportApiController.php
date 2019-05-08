@@ -8,6 +8,7 @@ use App\Helios;
 use App\Server;
 use App\Http\Controllers\Controller;
 use App\System;
+use App\VirtualMemory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Exception;
@@ -295,7 +296,10 @@ class ReportApiController extends Controller {
 //                    }
 //                }
 
-                $item['message'] = $this->getDiskUsage($item['server']);
+                $diskUsage      = $this->getDiskUsage($item['server']);
+                $virtualMemory  = $this->getVirtualMemory($item['server']);
+
+                $item['message'] = $diskUsage . ' | ' . $virtualMemory;
 
                 $result[] = $item;
             }
@@ -344,16 +348,32 @@ class ReportApiController extends Controller {
     }
 
     private function getDiskUsage($server){
-        $data = DiskUsage::where('ip_address', $server)
-            ->orderBy('created_date', 'desc')
+        $diskUsage = DiskUsage::where('ip_address', $server)
+            ->orderBy('datetime', 'desc')
             ->first();
 
-        $free   = round($data->free / 1048576); //1Gb = 1048576 kb
-        $total  = round($data->total / 1048576);
+        $free   = round($diskUsage->free / 1048576); //1Gb = 1048576 kb
+        $total  = round($diskUsage->total / 1048576);
 
         $result = '';
-        if($data != null){
-            $result = 'Free/Total: ' . $free . '/' . $total . ' (GB)';
+        if($diskUsage != null){
+            $result = 'Capacity: ' . $free . ' GB' . '/' . $total . ' GB';
+        }
+
+        return $result;
+    }
+
+    private function getVirtualMemory($server){
+        $virtualMemory = VirtualMemory::where('ip_address', $server)
+            ->orderBy('datetime', 'desc')
+            ->first();
+
+        $free   = round($virtualMemory->free / 1048576, 1); //1Gb = 1048576 kb
+        $total  = round($virtualMemory->total / 1048576, 1);
+
+        $result = '';
+        if($virtualMemory != null){
+            $result = 'RAM: ' . $free . ' GB' . '/' . $total . ' GB';
         }
 
         return $result;
