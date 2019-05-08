@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Config;
+use App\DiskUsage;
 use App\Helios;
 use App\Server;
 use App\Http\Controllers\Controller;
@@ -277,22 +278,25 @@ class ReportApiController extends Controller {
                 $item['server'] = @$server[$key];
                 $item['server_name'] = $key;
                 $item['rate'] = round($value['pass'] / $total, 2);
-                if($item['rate'] * 100 > 50){
-                    $time = $this->getLastStatus('up', $item['server']);
-                    if($time != 'N/A'){
-                        $item['message'] = 'Last down '.$time. ' ago';
-                    }else{
-                        $item['message'] = 'N/A';
-                    }
+//                if($item['rate'] * 100 > 50){
+//                    $time = $this->getLastStatus('up', $item['server']);
+//                    if($time != 'N/A'){
+//                        $item['message'] = 'Last down '.$time. ' ago';
+//                    }else{
+//                        $item['message'] = 'N/A';
+//                    }
+//
+//                }else{
+//                    $time = $this->getLastStatus('down', $item['server']);
+//                    if($time != 'N/A'){
+//                        $item['message'] = 'Last up '.$time. ' ago';
+//                    }else{
+//                        $item['message'] = 'N/A';
+//                    }
+//                }
 
-                }else{
-                    $time = $this->getLastStatus('down', $item['server']);
-                    if($time != 'N/A'){
-                        $item['message'] = 'Last up '.$time. ' ago';
-                    }else{
-                        $item['message'] = 'N/A';
-                    }
-                }
+                $item['message'] = $this->getDiskUsage($item['server']);
+
                 $result[] = $item;
             }
         }
@@ -334,6 +338,22 @@ class ReportApiController extends Controller {
             $result .= $hours.' hours ';
         }else{
             $result .= $days.' days ';
+        }
+
+        return $result;
+    }
+
+    private function getDiskUsage($server){
+        $data = DiskUsage::where('ip_address', $server)
+            ->orderBy('created_date', 'desc')
+            ->first();
+
+        $free   = round($data->free / 1048576); //1Gb = 1048576 kb
+        $total  = round($data->total / 1048576);
+
+        $result = '';
+        if($data != null){
+            $result = 'Free/Total: ' . $free . '/' . $total . ' (GB)';
         }
 
         return $result;
