@@ -226,7 +226,8 @@ class Helios extends Component {
                         server_name={info.server_name}
                         server={info.server}
                         rate={info.rate}
-                        message={info.message}
+                        capacity={info.capacity}
+                        ram={info.ram}
                     />
                     )
             })

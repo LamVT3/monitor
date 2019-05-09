@@ -299,7 +299,8 @@ class ReportApiController extends Controller {
                 $diskUsage      = $this->getDiskUsage($item['server']);
                 $virtualMemory  = $this->getVirtualMemory($item['server']);
 
-                $item['message'] = $diskUsage . ' | ' . $virtualMemory;
+                $item['capacity']   = $diskUsage;
+                $item['ram']        = $virtualMemory;
 
                 $result[] = $item;
             }
@@ -357,7 +358,7 @@ class ReportApiController extends Controller {
 
         $result = '';
         if($diskUsage != null){
-            $result = 'Capacity: ' . $free . ' GB' . '/' . $total . ' GB';
+            $result = $free . ' GB' . '/' . $total . ' GB';
         }
 
         return $result;
@@ -373,7 +374,7 @@ class ReportApiController extends Controller {
 
         $result = '';
         if($virtualMemory != null){
-            $result = 'RAM: ' . $free . ' GB' . '/' . $total . ' GB';
+            $result = $free . ' GB' . '/' . $total . ' GB';
         }
 
         return $result;
